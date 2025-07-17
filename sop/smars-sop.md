@@ -126,6 +126,139 @@ Cues are:
 
 Cues should never affect execution directly. They may later be promoted to plan, contract, or test.
 
+### 4.2 Cue Handling Policy
+
+#### 4.2.1 Systematic Cue Evaluation Process
+
+All cues must be systematically evaluated using the following repeatable process:
+
+```smars
+@role(architect)
+
+(kind CueEvaluation ∷ {
+  cue_id: STRING,
+  technical_feasibility: FLOAT,
+  system_alignment: FLOAT,
+  implementation_complexity: FLOAT,
+  value_proposition: FLOAT,
+  combined_score: FLOAT,
+  promotion_recommended: BOOL,
+  rejection_reason: STRING,
+  evaluator: STRING,
+  evaluation_date: STRING
+})
+
+(kind CueReport ∷ {
+  evaluation_cycle: STRING,
+  total_cues_evaluated: INTEGER,
+  promoted_count: INTEGER,
+  rejected_count: INTEGER,
+  deferred_count: INTEGER,
+  evaluation_summary: [STRING],
+  promoted_cues: [STRING],
+  rejected_cues: [STRING]
+})
+
+(plan cueHandlingProcess § steps:
+  - scanCueDirectory
+  - evaluateCueQuality
+  - assessPromotionCriteria
+  - makePromotionDecision
+  - generateCueReport
+  - updateCueStatus
+  - promoteApprovedCues)
+
+(contract cueEvaluation
+  ⊨ requires: cue_format_valid = true ∧ evaluation_criteria_applied = true
+  ⊨ ensures: promotion_decision_documented = true ∧ rationale_provided = true)
+```
+
+#### 4.2.2 Evaluation Criteria
+
+Each cue must be evaluated against four criteria (0.0-1.0 scale):
+
+**Technical Feasibility (0.0-1.0)**
+- 0.0-0.3: Technically infeasible or requires major system changes
+- 0.4-0.6: Feasible with moderate implementation effort
+- 0.7-1.0: Easily implementable with existing system capabilities
+
+**System Alignment (0.0-1.0)**
+- 0.0-0.3: Conflicts with core system principles or objectives
+- 0.4-0.6: Neutral or tangentially related to system goals
+- 0.7-1.0: Strongly aligned with system evolution and objectives
+
+**Implementation Complexity (0.0-1.0)**
+- 0.0-0.3: Highly complex, requires significant development effort
+- 0.4-0.6: Moderate complexity, manageable implementation
+- 0.7-1.0: Low complexity, straightforward implementation
+
+**Value Proposition (0.0-1.0)**
+- 0.0-0.3: Limited or unclear value to system capabilities
+- 0.4-0.6: Moderate value, incremental improvement
+- 0.7-1.0: High value, significant enhancement to system
+
+#### 4.2.3 Decision Matrix
+
+**Promotion Criteria:**
+- Combined score ≥ 0.7 AND no individual criterion < 0.4
+- Technical feasibility ≥ 0.6 (minimum viability threshold)
+- System alignment ≥ 0.6 (consistency requirement)
+
+**Rejection Criteria:**
+- Technical feasibility < 0.4 (infeasible)
+- System alignment < 0.4 (conflicts with system principles)
+- Combined score < 0.5 (insufficient overall value)
+
+**Deferral Criteria:**
+- Combined score 0.5-0.69 (needs further analysis)
+- Missing information prevents proper evaluation
+- Dependencies on other system components not yet available
+
+#### 4.2.4 Reporting Requirements
+
+Each evaluation cycle must produce:
+
+**Individual Cue Evaluation Reports:**
+- Detailed scoring for each criterion
+- Promotion/rejection rationale
+- Implementation recommendations (if promoted)
+- Alternative approaches (if rejected)
+
+**Aggregate Cue Report:**
+- Summary statistics for evaluation cycle
+- Trends in cue quality and themes
+- Promoted cues with implementation timelines
+- Rejected cues with improvement suggestions
+
+#### 4.2.5 Cue Status Management
+
+**Promoted Cues:**
+- Move to appropriate `spec/` directory as formal specifications
+- Maintain traceability link to original cue
+- Archive original cue with promotion notation
+
+**Rejected Cues:**
+- Archive with detailed rejection rationale
+- Maintain in `archive/cues/` for future reference
+- Include suggestions for improvement if applicable
+
+**Deferred Cues:**
+- Remain in `cues/` directory with deferral notation
+- Schedule for re-evaluation in next cycle
+- Document dependencies preventing current evaluation
+
+#### 4.2.6 Evaluation Cycle
+
+**Frequency:** Monthly or triggered by significant cue accumulation (>10 new cues)
+
+**Process:**
+1. Scan all `.cues.md` files in `cues/` directory
+2. Evaluate each cue against criteria framework
+3. Apply decision matrix for promotion/rejection/deferral
+4. Generate individual and aggregate reports
+5. Update cue status and move files as appropriate
+6. Schedule follow-up actions for promoted cues
+
 ---
 
 ## 5. Journal and Notes
