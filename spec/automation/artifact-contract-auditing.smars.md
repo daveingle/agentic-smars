@@ -7,12 +7,11 @@
 ## Data Types
 
 kind PhaseExecutionReport ∷ {
-  phase_name: STRING,
-  deliverable_claims: [STRING],
-  artifact_links: [STRING],
-  verification_hashes: [STRING],
-  reality_validation_status: STRING,
-  actual_artifacts_produced: BOOL
+  phase: STRING,
+  artifact_path: STRING,
+  artifact_type: STRING,
+  verified: BOOL,
+  notes: STRING
 }
 
 kind ArtifactValidation ∷ {
@@ -43,6 +42,7 @@ kind RealityGapAssessment ∷ {
 
 ## Constants
 
+datum artifact_manifest ∷ [PhaseExecutionReport] ⟦[]⟧
 datum validation_methods ∷ [STRING] ⟦["file_system_check", "artifact_hash_verification", "content_validation", "functional_testing"]⟧
 datum reality_validation_threshold ∷ FLOAT ⟦0.95⟧
 datum hallucination_detection_threshold ∷ FLOAT ⟦0.3⟧
@@ -51,6 +51,7 @@ datum audit_results ∷ [STRING] ⟦["verified_success", "symbolic_hallucination
 ## Functions
 
 maplet validatePhaseDeliverable : PhaseExecutionReport → ArtifactValidation
+maplet validateDeliverables : [PhaseExecutionReport] → BOOL
 maplet auditExecutionReality : [PhaseExecutionReport] → ExecutionAudit
 maplet detectSymbolicHallucination : ExecutionAudit → BOOL
 maplet assessRealityGap : ExecutionAudit → RealityGapAssessment
@@ -58,12 +59,17 @@ maplet generateArtifactHash : STRING → STRING
 maplet verifyArtifactExistence : STRING → BOOL
 maplet validateDeliverableContent : ArtifactValidation → BOOL
 maplet reportExecutionStatus : ExecutionAudit → STRING
+maplet gatherPhaseReports : STRING → [PhaseExecutionReport]
 
 ## Behavioral Contracts
 
 contract validatePhaseDeliverable ⊨
   requires: phase.deliverable ≠ null ∧ artifact_links_provided = true
   ensures: artifact.created = true ∧ verification_completed = true
+
+contract validateDeliverables ⊨
+  requires: all(report in reports, report.verified = true)
+  ensures: result = true
 
 contract auditExecutionReality ⊨
   requires: all_phase_reports_submitted = true
@@ -102,6 +108,10 @@ plan artifactContractAuditing ∷
   § detectSymbolicHallucination
   § assessRealityGap
   § reportExecutionStatus
+
+plan validateExecutionIntegrity ∷
+  § gatherPhaseReports
+  § validateDeliverables
 
 ## Hallucination Detection
 
@@ -172,6 +182,8 @@ contract anti_hallucination_protocol ⊨
 (cue implement_content_validation_engine ⊨ suggests: build system to validate deliverable content against phase requirements)
 
 (cue implement_reality_gap_detector ⊨ suggests: create automated system to detect discrepancies between symbolic claims and operational reality)
+
+(cue detect_symbolic_success_without_output ⊨ suggests: require validateDeliverables to complete all symbolic execution plans)
 
 ## Meta-Pattern
 
