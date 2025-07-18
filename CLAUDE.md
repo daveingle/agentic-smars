@@ -115,3 +115,7 @@ This repository contains no traditional build, test, or lint commands. It's a sy
 6. Maintain full traceability
 
 This ensures symbolic consistency and evolutionary capability of the system.
+
+## Memories
+
+- Always truly validate

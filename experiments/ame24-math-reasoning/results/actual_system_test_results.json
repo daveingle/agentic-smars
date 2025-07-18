@@ -1,0 +1,38 @@
+[
+  {
+    "problem_id": "problem_1",
+    "expected_answer": "204",
+    "system_answer": "204",
+    "correct": true,
+    "confidence": 0.8999999999999999,
+    "processing_time": 0.000244140625,
+    "trajectory_count": 3,
+    "average_validity": 0.8703125,
+    "total_steps": 8,
+    "timestamp": "2025-07-18T12:09:59.357879"
+  },
+  {
+    "problem_id": "problem_2",
+    "expected_answer": "25",
+    "system_answer": "25",
+    "correct": true,
+    "confidence": 0.9,
+    "processing_time": 7.605552673339844e-05,
+    "trajectory_count": 3,
+    "average_validity": 0.875,
+    "total_steps": 8,
+    "timestamp": "2025-07-18T12:09:59.357982"
+  },
+  {
+    "problem_id": "problem_3",
+    "expected_answer": "809",
+    "system_answer": "204",
+    "correct": false,
+    "confidence": 0.8999999999999999,
+    "processing_time": 7.605552673339844e-05,
+    "trajectory_count": 3,
+    "average_validity": 0.8703125,
+    "total_steps": 8,
+    "timestamp": "2025-07-18T12:09:59.358077"
+  }
+]
