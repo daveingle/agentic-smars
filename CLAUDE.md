@@ -107,11 +107,13 @@ This repository contains no traditional build, test, or lint commands. It's a sy
 
 **IMPORTANT**: All development requests should follow the integrated agentic workflow:
 
-1. Assign REQ-NNN identifier
-2. Create journal entry analyzing request
-3. Generate cues from analysis
-4. Promote cues to specs if warranted
-5. Create implementation files
-6. Maintain full traceability
+1. **Request Capture** - Create formal SMARS specification in `spec/requests/REQ-NNN-name.smars.md`
+2. **Analysis** - Record insights in `journal/NNN-analysis-topic.md` (system learning focus)
+3. **Cue Generation** - Generate advisory cues in `cues/topic-insights.md` from analysis
+4. **Spec Promotion** - Promote valuable cues to formal specs in appropriate `spec/` subdirectory  
+5. **Implementation** - Create `.implementation.md` files for concrete behavior
+6. **Outcome Tracking** - Record completion in `requests/completed/REQ-NNN-summary.md`
+
+**Key Principle**: Journals are for system evolution insights, not request tracking. Maintain clear separation between journaling (system learning) and request management (workflow execution).
 
 This ensures symbolic consistency and evolutionary capability of the system.

@@ -168,3 +168,9 @@ plan exampleRequestFlow ∷
   § promoteToSpec("spec/requests/documentation-consolidation.smars.md")
   § implementRequestSpec(actual_file_consolidation_and_archival)
   § recordRequestOutcome(request_completed_with_artifacts_traced)
+
+// --- Artifact Export
+apply ArtifactExport ∷
+  ▸ concrete_interpreter: captureRequest, analyzeRequest, generateCues, promoteToSpec functions
+  ▸ traceable_artifact: spec/requests/REQ-NNN-name.smars.md, journal/NNN-analysis.md, requests/completed/REQ-NNN-summary.md
+  ▸ phase_execution_report: request_lifecycle_status with completion metrics

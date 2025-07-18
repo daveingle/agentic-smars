@@ -123,3 +123,9 @@ This specification demonstrates the self-evolving pattern by:
 4. **Maintaining traceability** back to the original request (REQ-006)
 
 The pattern is self-validating: the existence of this spec proves the system's ability to evolve and immediately apply new capabilities.
+
+// --- Artifact Export
+apply ArtifactExport ∷
+  ▸ concrete_interpreter: executeEvolutionCycle, trackSystemModifications, validateEvolution functions
+  ▸ traceable_artifact: journal/NNN-evolution-milestone.md, spec/evolved-capabilities.smars.md, evolution-history.json
+  ▸ phase_execution_report: evolution_status with capability_enhancements and validation_results

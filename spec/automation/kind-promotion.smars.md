@@ -119,3 +119,9 @@
 
 (cue kind_dependency_analysis
   ⊨ suggests: analyze field type dependencies when determining canonical placement)
+
+// --- Artifact Export
+apply ArtifactExport ∷
+  ▸ concrete_interpreter: extractKind, classifyDomain, placeKind functions
+  ▸ traceable_artifact: spec/types/registry.smars.md, spec/{{domain}}/types/
+  ▸ phase_execution_report: placement_status with canonical/domain locations

@@ -165,3 +165,9 @@ This specification demonstrates SMARS self-reporting capabilities by:
 5. **Maintaining historical context** for performance tracking
 
 The dashboard enables the system to monitor and report on its own cue handling effectiveness, supporting continuous improvement of the symbolic development process.
+
+// --- Artifact Export
+apply ArtifactExport ∷
+  ▸ concrete_interpreter: generateDashboard, aggregateMetrics, analyzePerformance functions
+  ▸ traceable_artifact: cue-dashboard.html, metrics-history.json, performance-trends.md
+  ▸ phase_execution_report: dashboard_generation_status with metrics and insights
