@@ -1,0 +1,9 @@
+# Results Directory
+
+This directory will contain experiment results and performance metrics.
+
+## Structure
+- `trajectory-scores/` - Trajectory scoring results
+- `validation-reports/` - Step validation reports
+- `performance-metrics/` - System performance data
+- `learning-progress/` - Learning and adaptation tracking
