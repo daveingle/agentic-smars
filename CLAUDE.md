@@ -117,3 +117,7 @@ This repository contains no traditional build, test, or lint commands. It's a sy
 **Key Principle**: Journals are for system evolution insights, not request tracking. Maintain clear separation between journaling (system learning) and request management (workflow execution).
 
 This ensures symbolic consistency and evolutionary capability of the system.
+
+## Memories
+
+- Always truly validate

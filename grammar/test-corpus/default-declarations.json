@@ -1,0 +1,119 @@
+{
+  "declaration_type": "default_decl",
+  "description": "Test corpus for default declarations - LLM-specific behavior directives",
+  "grammar_rule": "(default IDENTIFIER directive_content [metadata])",
+  "valid_samples": [
+    {
+      "id": "default_001",
+      "description": "Simple behavior directive",
+      "code": "(default error_handling \"Always provide detailed error messages with suggested fixes\")"
+    },
+    {
+      "id": "default_002",
+      "description": "Code generation default",
+      "code": "(default code_style \"Use functional programming patterns and immutable data structures\")"
+    },
+    {
+      "id": "default_003",
+      "description": "Default with priority",
+      "code": "(default security_first \"Prioritize security over performance in all implementations\" priority: critical)"
+    },
+    {
+      "id": "default_004",
+      "description": "Context-specific default",
+      "code": "(default api_responses \"Return structured JSON with consistent error codes\" context: \"web_api\")"
+    },
+    {
+      "id": "default_005",
+      "description": "Multi-line directive",
+      "code": "(default documentation_standard \"Generate comprehensive documentation including:\\n- Function purpose and parameters\\n- Usage examples\\n- Error conditions\")"
+    },
+    {
+      "id": "default_006",
+      "description": "Default with expiration",
+      "code": "(default temporary_logging \"Enable verbose logging for debugging\" expires: \"2024-12-31\")"
+    },
+    {
+      "id": "default_007",
+      "description": "Structured directive content",
+      "code": "(default testing_approach {\"strategy\": \"test_driven_development\", \"coverage\": \"minimum_90_percent\", \"frameworks\": [\"jest\", \"pytest\"]})"
+    },
+    {
+      "id": "default_008",
+      "description": "Default with all metadata",
+      "code": "(default comprehensive_approach \"Follow clean architecture principles with clear separation of concerns\" priority: high context: \"system_design\" expires: \"2025-06-30\")"
+    },
+    {
+      "id": "default_009",
+      "description": "Performance-focused default",
+      "code": "(default optimization_rules \"Optimize for O(log n) complexity where possible, avoid nested loops\")"
+    },
+    {
+      "id": "default_010",
+      "description": "Unicode content default",
+      "code": "(default internationalization \"Support Unicode strings and locale-specific formatting: 中文, العربية, русский\")"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "default_invalid_001",
+      "description": "Empty directive content",
+      "code": "(default empty_directive \"\")",
+      "error_type": "empty_directive_content"
+    },
+    {
+      "id": "default_invalid_002",
+      "description": "Missing directive content",
+      "code": "(default missing_content priority: high)",
+      "error_type": "missing_directive_content"
+    },
+    {
+      "id": "default_invalid_003",
+      "description": "Invalid priority value",
+      "code": "(default bad_priority \"Follow best practices\" priority: urgent)",
+      "error_type": "invalid_priority_value"
+    },
+    {
+      "id": "default_invalid_004",
+      "description": "Reserved word as default name",
+      "code": "(default contract \"Always validate contracts\")",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "default_invalid_005",
+      "description": "Malformed structured content",
+      "code": "(default bad_structure {\"incomplete\": })",
+      "error_type": "malformed_structured_content"
+    },
+    {
+      "id": "default_invalid_006",
+      "description": "Too many context values (>3)",
+      "code": "(default excessive_context \"Follow guidelines\" context: \"web\", \"mobile\", \"desktop\", \"embedded\")",
+      "error_type": "cardinality_violation_context"
+    },
+    {
+      "id": "default_invalid_007",
+      "description": "Invalid expiration format",
+      "code": "(default bad_expiration \"Temporary rule\" expires: \"next month\")",
+      "error_type": "invalid_expiration_format"
+    },
+    {
+      "id": "default_invalid_008",
+      "description": "Unterminated string content",
+      "code": "(default unterminated \"This directive is not closed)",
+      "error_type": "unterminated_string_content"
+    },
+    {
+      "id": "default_invalid_009",
+      "description": "Directive content too long (>1000 chars)",
+      "code": "(default excessive_content \"This is an extremely long directive that exceeds the maximum allowed length limit by containing way too much text that goes on and on without providing any real value and just serves to test the length validation mechanism of the parser which should reject such overly verbose directive content that could potentially cause performance issues or memory problems when processing SMARS files and should therefore be limited to a reasonable maximum length to ensure efficient parsing and processing while still allowing for detailed and comprehensive behavior specifications that provide clear guidance to LLM systems about expected behavior patterns and implementation approaches but not so long that they become unwieldy or difficult to process efficiently by automated systems that need to parse and interpret these directives in real-time applications where performance and memory usage are critical considerations for maintaining system responsiveness and reliability.\")",
+      "error_type": "directive_content_too_long"
+    },
+    {
+      "id": "default_invalid_010",
+      "description": "Multiple directive contents",
+      "code": "(default multiple_content \"First directive\" \"Second directive\")",
+      "error_type": "multiple_directive_contents"
+    }
+  ]
+}

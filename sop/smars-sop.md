@@ -261,7 +261,100 @@ Each evaluation cycle must produce:
 
 ---
 
-## 5. Journal and Notes
+## 5. Artifact Output File Location Review
+
+### 5.1 Systematic Location Assessment
+
+Before committing any artifacts, conduct a systematic review of file locations to ensure proper organization:
+
+```smars
+@role(architect)
+
+(kind LocationReview ∷ {
+  artifact_name: STRING,
+  current_location: STRING,
+  recommended_location: STRING,
+  artifact_type: STRING,
+  rationale: STRING,
+  move_required: BOOL
+})
+
+(plan artifactLocationReview § steps:
+  - scanAllArtifacts
+  - classifyArtifactTypes
+  - assessCurrentLocations
+  - applyLocationCriteria
+  - generateMoveRecommendations
+  - executeReorganization)
+
+(contract locationReview
+  ⊨ requires: all_artifacts_scanned = true ∧ criteria_applied = true
+  ⊨ ensures: logical_organization = true ∧ accessibility_maintained = true)
+```
+
+### 5.2 File Location Criteria
+
+**spec/**: Formal SMARS specifications
+- `*.smars.md` files with formal symbolic declarations
+- Must include at least one plan, kind, and contract
+- Implementation-independent symbolic logic
+
+**notes/**: Analysis, validation, and implementation documentation
+- Validation reports and assessment documents
+- Task execution logs and learning documentation
+- Implementation guidance and architectural notes
+- Process documentation and meta-analysis
+
+**journal/**: Chronological development insights
+- Numbered entries documenting system evolution
+- Symbolic explorations and hypothesis testing
+- Discovery narratives and design insights
+
+**examples/**: Concrete implementation demonstrations
+- Working code examples and prototypes
+- Specific use case implementations
+- Demonstration of symbolic specs in practice
+
+**experiments/**: Active development and testing
+- Ongoing experimental implementations
+- Temporary development artifacts
+- Work-in-progress prototypes
+
+### 5.3 Location Review Process
+
+1. **Artifact Classification**
+   - Determine primary purpose (specification, analysis, implementation, exploration)
+   - Assess formality level (formal symbolic, structured analysis, informal notes)
+   - Identify target audience (system architects, implementers, researchers)
+
+2. **Location Assessment**
+   - Compare current location against intended purpose
+   - Verify accessibility for target audience
+   - Check for logical grouping with related artifacts
+
+3. **Move Recommendations**
+   - Generate specific move recommendations with rationale
+   - Prioritize moves that improve system organization
+   - Consider impact on existing references and links
+
+4. **Reorganization Execution**
+   - Execute file moves using git mv to preserve history
+   - Update any internal references or links
+   - Commit reorganization with clear rationale
+
+### 5.4 Common Location Patterns
+
+**Root Directory**: Only essential project files
+- `README.md`, `LICENSE`, `CLAUDE.md`, `AGENT_PRIMER.md`
+- Active evaluation cycles (until completed)
+
+**Misplaced Artifacts**: Common location issues
+- Validation reports in root → should be in `notes/`
+- Implementation docs in root → should be in `notes/`
+- Task execution logs in root → should be in `notes/`
+- Process documentation in root → should be in `notes/`
+
+## 6. Journal and Notes
 
 Use:
 - `journal/` to explore ideas and structure symbolically
@@ -271,7 +364,7 @@ Neither folder is part of the active runtime model but provides context and cont
 
 ---
 
-## 6. Archival
+## 7. Archival
 
 Retire deprecated, unstable, or exploratory designs to the `archive/` directory. Do not delete symbolic artifacts unless they are invalid; archive instead.
 

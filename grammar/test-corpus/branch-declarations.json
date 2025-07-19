@@ -1,0 +1,119 @@
+{
+  "declaration_type": "branch_decl",
+  "description": "Test corpus for branch declarations - conditional dispatch logic",
+  "grammar_rule": "(branch IDENTIFIER [metadata] ⎇ branch_cases [else_clause])",
+  "valid_samples": [
+    {
+      "id": "branch_001",
+      "description": "Simple two-way branch",
+      "code": "(branch user_status ⎇ when authenticated: → dashboard when guest: → login_page)"
+    },
+    {
+      "id": "branch_002",
+      "description": "Branch with else clause",
+      "code": "(branch request_handler ⎇ when method = GET: → handle_get when method = POST: → handle_post else: → method_not_allowed)"
+    },
+    {
+      "id": "branch_003",
+      "description": "Branch with comparison conditions",
+      "code": "(branch load_balancer ⎇ when server_load < 0.5: → primary_server when server_load < 0.8: → secondary_server else: → queue_request)"
+    },
+    {
+      "id": "branch_004",
+      "description": "Branch with logical conditions",
+      "code": "(branch access_control ⎇ when authenticated = true ∧ authorized = true: → grant_access when authenticated = true: → request_authorization else: → redirect_login)"
+    },
+    {
+      "id": "branch_005",
+      "description": "Branch with action blocks",
+      "code": "(branch error_handler ⎇ when error_type = \"validation\": → {log_error; send_user_feedback} when error_type = \"system\": → {log_error; alert_admin; retry_operation} else: → handle_unknown_error)"
+    },
+    {
+      "id": "branch_006",
+      "description": "Branch with metadata",
+      "code": "(branch payment_routing exhaustive: true ⎇ when currency = \"USD\": → us_processor when currency = \"EUR\": → eu_processor when currency = \"GBP\": → uk_processor)"
+    },
+    {
+      "id": "branch_007",
+      "description": "Branch with function call conditions",
+      "code": "(branch validation_router ⎇ when is_valid(input): → process_valid_data when is_recoverable(input): → attempt_recovery else: → reject_input)"
+    },
+    {
+      "id": "branch_008",
+      "description": "Branch with negation",
+      "code": "(branch feature_toggle ⎇ when ¬feature_enabled: → legacy_handler when user_in_experiment: → experimental_handler else: → standard_handler)"
+    },
+    {
+      "id": "branch_009",
+      "description": "Maximum branches (10)",
+      "code": "(branch priority_queue ⎇ when priority = 1: → urgent_handler when priority = 2: → high_handler when priority = 3: → medium_handler when priority = 4: → normal_handler when priority = 5: → low_handler when priority = 6: → bulk_handler when priority = 7: → batch_handler when priority = 8: → background_handler when priority = 9: → deferred_handler when priority = 10: → archive_handler)"
+    },
+    {
+      "id": "branch_010",
+      "description": "Complex action sequences",
+      "code": "(branch transaction_handler ⎇ when amount > 10000: → {validate_identity; check_compliance; require_approval; process_transaction} when amount > 1000: → {validate_card; process_transaction} else: → {process_transaction})"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "branch_invalid_001",
+      "description": "Single branch case (minimum 2 required)",
+      "code": "(branch insufficient ⎇ when condition: → action)",
+      "error_type": "insufficient_branch_cases"
+    },
+    {
+      "id": "branch_invalid_002",
+      "description": "Missing branch symbol",
+      "code": "(branch missing_symbol when x: → action1 when y: → action2)",
+      "error_type": "missing_branch_symbol"
+    },
+    {
+      "id": "branch_invalid_003",
+      "description": "Missing arrow in branch case",
+      "code": "(branch missing_arrow ⎇ when condition action when other: → other_action)",
+      "error_type": "missing_branch_arrow"
+    },
+    {
+      "id": "branch_invalid_004",
+      "description": "Too many branch cases (>10)",
+      "code": "(branch excessive ⎇ when c1: → a1 when c2: → a2 when c3: → a3 when c4: → a4 when c5: → a5 when c6: → a6 when c7: → a7 when c8: → a8 when c9: → a9 when c10: → a10 when c11: → a11)",
+      "error_type": "cardinality_violation_branches"
+    },
+    {
+      "id": "branch_invalid_005",
+      "description": "Empty condition",
+      "code": "(branch empty_condition ⎇ when : → action when other: → other_action)",
+      "error_type": "empty_condition"
+    },
+    {
+      "id": "branch_invalid_006",
+      "description": "Invalid action block syntax",
+      "code": "(branch bad_action ⎇ when condition: → {action1 action2} when other: → action3)",
+      "error_type": "malformed_action_block"
+    },
+    {
+      "id": "branch_invalid_007",
+      "description": "Too many actions in block (>5)",
+      "code": "(branch excessive_actions ⎇ when condition: → {action1; action2; action3; action4; action5; action6} when other: → action)",
+      "error_type": "cardinality_violation_actions"
+    },
+    {
+      "id": "branch_invalid_008",
+      "description": "Reserved word as branch name",
+      "code": "(branch plan ⎇ when condition: → action1 when other: → action2)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "branch_invalid_009",
+      "description": "Missing when keyword",
+      "code": "(branch missing_when ⎇ condition: → action1 when other: → action2)",
+      "error_type": "missing_when_keyword"
+    },
+    {
+      "id": "branch_invalid_010",
+      "description": "Malformed logical condition",
+      "code": "(branch bad_logic ⎇ when x = true ∧ ∧ y = false: → action when other: → other_action)",
+      "error_type": "malformed_logical_expression"
+    }
+  ]
+}

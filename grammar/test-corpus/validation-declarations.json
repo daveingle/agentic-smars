@@ -1,0 +1,119 @@
+{
+  "declaration_type": "validation_decl",
+  "description": "Test corpus for validation declarations - verification rules and constraint checking",
+  "grammar_rule": "(validation IDENTIFIER validation_spec [metadata])",
+  "valid_samples": [
+    {
+      "id": "validation_001",
+      "description": "Simple input validation",
+      "code": "(validation email_format rule: regex(\"^[\\w\\.-]+@[\\w\\.-]+\\.[a-z]{2,}$\"))"
+    },
+    {
+      "id": "validation_002",
+      "description": "Range validation",
+      "code": "(validation age_range rule: value >= 0 ∧ value <= 120 error_message: \"Age must be between 0 and 120\")"
+    },
+    {
+      "id": "validation_003",
+      "description": "Multi-field validation",
+      "code": "(validation password_strength rule: length(password) >= 8 ∧ contains_uppercase(password) ∧ contains_digit(password) severity: critical)"
+    },
+    {
+      "id": "validation_004",
+      "description": "Custom validation with predicate",
+      "code": "(validation unique_username rule: is_unique(username, user_database) timeout: 5000ms retry_count: 3)"
+    },
+    {
+      "id": "validation_005",
+      "description": "Conditional validation",
+      "code": "(validation conditional_required rule: if role = \"admin\" then security_clearance is_required else security_clearance is_optional)"
+    },
+    {
+      "id": "validation_006",
+      "description": "List validation",
+      "code": "(validation list_constraints rule: length(items) <= 100 ∧ ∀ item ∈ items: is_valid(item) batch_size: 10)"
+    },
+    {
+      "id": "validation_007",
+      "description": "Cross-field validation",
+      "code": "(validation date_consistency rule: start_date <= end_date ∧ end_date <= today() + 365_days dependencies: start_date, end_date)"
+    },
+    {
+      "id": "validation_008",
+      "description": "Async validation",
+      "code": "(validation external_verification rule: verify_with_service(data, external_api) async: true timeout: 30000ms fallback: \"manual_review\")"
+    },
+    {
+      "id": "validation_009",
+      "description": "Validation with all metadata",
+      "code": "(validation comprehensive_check rule: is_valid_format(input) ∧ is_authorized(user) ∧ within_limits(request) severity: high timeout: 10000ms retry_count: 2 error_message: \"Comprehensive validation failed\" dependencies: input, user, request)"
+    },
+    {
+      "id": "validation_010",
+      "description": "Schema validation",
+      "code": "(validation json_schema rule: conforms_to_schema(data, user_schema) schema_version: \"v2.1\" strict_mode: true allow_additional_properties: false)"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "validation_invalid_001",
+      "description": "Missing validation rule",
+      "code": "(validation empty_validation timeout: 5000ms)",
+      "error_type": "missing_validation_rule"
+    },
+    {
+      "id": "validation_invalid_002",
+      "description": "Invalid timeout value (negative)",
+      "code": "(validation bad_timeout rule: length(input) > 0 timeout: -1000ms)",
+      "error_type": "invalid_timeout_value"
+    },
+    {
+      "id": "validation_invalid_003",
+      "description": "Invalid severity level",
+      "code": "(validation bad_severity rule: is_valid(input) severity: urgent)",
+      "error_type": "invalid_severity_level"
+    },
+    {
+      "id": "validation_invalid_004",
+      "description": "Too many dependencies (>10)",
+      "code": "(validation excessive_deps rule: complex_check(data) dependencies: d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11)",
+      "error_type": "cardinality_violation_dependencies"
+    },
+    {
+      "id": "validation_invalid_005",
+      "description": "Invalid retry count (>10)",
+      "code": "(validation bad_retry rule: check_external(data) retry_count: 15)",
+      "error_type": "retry_count_out_of_range"
+    },
+    {
+      "id": "validation_invalid_006",
+      "description": "Malformed validation rule",
+      "code": "(validation bad_rule rule: length(input) >= ∧ contains(input, \"@\"))",
+      "error_type": "malformed_validation_rule"
+    },
+    {
+      "id": "validation_invalid_007",
+      "description": "Reserved word as validation name",
+      "code": "(validation contract rule: is_valid(input))",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "validation_invalid_008",
+      "description": "Invalid batch size (zero)",
+      "code": "(validation bad_batch rule: validate_all(items) batch_size: 0)",
+      "error_type": "invalid_batch_size"
+    },
+    {
+      "id": "validation_invalid_009",
+      "description": "Conflicting async and timeout",
+      "code": "(validation conflicting_async rule: check_data(input) async: false timeout: 30000ms)",
+      "error_type": "conflicting_async_timeout"
+    },
+    {
+      "id": "validation_invalid_010",
+      "description": "Empty error message",
+      "code": "(validation empty_message rule: is_valid(input) error_message: \"\")",
+      "error_type": "empty_error_message"
+    }
+  ]
+}

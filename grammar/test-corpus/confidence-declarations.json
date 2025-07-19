@@ -1,0 +1,119 @@
+{
+  "declaration_type": "confidence_decl",
+  "description": "Test corpus for confidence declarations - uncertainty quantification and calibration",
+  "grammar_rule": "(confidence IDENTIFIER confidence_spec [metadata])",
+  "valid_samples": [
+    {
+      "id": "confidence_001",
+      "description": "Simple confidence level",
+      "code": "(confidence prediction_accuracy level: 0.85)"
+    },
+    {
+      "id": "confidence_002",
+      "description": "Confidence with calibration method",
+      "code": "(confidence model_certainty level: 0.92 calibration: platt_scaling)"
+    },
+    {
+      "id": "confidence_003",
+      "description": "Confidence with uncertainty sources",
+      "code": "(confidence weather_forecast level: 0.78 uncertainty_sources: \"sensor_noise\", \"model_bias\")"
+    },
+    {
+      "id": "confidence_004",
+      "description": "Confidence with intervals",
+      "code": "(confidence measurement_precision level: 0.95 confidence_interval: [0.92, 0.98] method: \"bootstrap\")"
+    },
+    {
+      "id": "confidence_005",
+      "description": "Bayesian confidence",
+      "code": "(confidence posterior_belief level: 0.73 prior: 0.5 evidence_weight: 0.8 method: \"bayesian_update\")"
+    },
+    {
+      "id": "confidence_006",
+      "description": "Ensemble confidence",
+      "code": "(confidence ensemble_prediction level: 0.89 ensemble_size: 10 agreement_threshold: 0.7 variance: 0.12)"
+    },
+    {
+      "id": "confidence_007",
+      "description": "Temporal confidence decay",
+      "code": "(confidence time_sensitive_prediction level: 0.91 decay_rate: 0.05 half_life: 24h timestamp: \"2024-07-18T10:00:00Z\")"
+    },
+    {
+      "id": "confidence_008",
+      "description": "Multi-dimensional confidence",
+      "code": "(confidence comprehensive_assessment level: 0.87 dimensions: {\"accuracy\": 0.92, \"precision\": 0.85, \"recall\": 0.84} overall_method: \"harmonic_mean\")"
+    },
+    {
+      "id": "confidence_009",
+      "description": "Confidence with all metadata",
+      "code": "(confidence expert_system_output level: 0.94 calibration: temperature_scaling uncertainty_sources: \"input_quality\", \"model_complexity\" confidence_interval: [0.91, 0.97] method: \"monte_carlo\" samples: 1000)"
+    },
+    {
+      "id": "confidence_010",
+      "description": "Cross-validated confidence",
+      "code": "(confidence validated_model level: 0.86 cross_validation: k_fold k: 5 validation_scores: [0.84, 0.87, 0.85, 0.88, 0.86])"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "confidence_invalid_001",
+      "description": "Missing confidence specification",
+      "code": "(confidence empty_confidence)",
+      "error_type": "missing_confidence_specification"
+    },
+    {
+      "id": "confidence_invalid_002",
+      "description": "Confidence level out of range (>1.0)",
+      "code": "(confidence bad_level level: 1.5)",
+      "error_type": "confidence_level_out_of_range"
+    },
+    {
+      "id": "confidence_invalid_003",
+      "description": "Negative confidence level",
+      "code": "(confidence negative_confidence level: -0.2)",
+      "error_type": "negative_confidence_level"
+    },
+    {
+      "id": "confidence_invalid_004",
+      "description": "Invalid calibration method",
+      "code": "(confidence bad_calibration level: 0.8 calibration: magic_scaling)",
+      "error_type": "invalid_calibration_method"
+    },
+    {
+      "id": "confidence_invalid_005",
+      "description": "Too many uncertainty sources (>5)",
+      "code": "(confidence excessive_sources level: 0.7 uncertainty_sources: \"s1\", \"s2\", \"s3\", \"s4\", \"s5\", \"s6\")",
+      "error_type": "cardinality_violation_uncertainty_sources"
+    },
+    {
+      "id": "confidence_invalid_006",
+      "description": "Invalid confidence interval format",
+      "code": "(confidence bad_interval level: 0.8 confidence_interval: [0.9, 0.7])",
+      "error_type": "invalid_confidence_interval"
+    },
+    {
+      "id": "confidence_invalid_007",
+      "description": "Reserved word as confidence name",
+      "code": "(confidence contract level: 0.85)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "confidence_invalid_008",
+      "description": "Invalid decay rate (>1.0)",
+      "code": "(confidence bad_decay level: 0.8 decay_rate: 1.5)",
+      "error_type": "decay_rate_out_of_range"
+    },
+    {
+      "id": "confidence_invalid_009",
+      "description": "Too many validation scores (>20)",
+      "code": "(confidence excessive_scores level: 0.8 validation_scores: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8])",
+      "error_type": "cardinality_violation_validation_scores"
+    },
+    {
+      "id": "confidence_invalid_010",
+      "description": "Malformed dimensions structure",
+      "code": "(confidence bad_dimensions level: 0.8 dimensions: {\"incomplete\": })",
+      "error_type": "malformed_dimensions_structure"
+    }
+  ]
+}

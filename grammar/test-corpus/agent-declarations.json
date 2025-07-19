@@ -1,0 +1,119 @@
+{
+  "declaration_type": "agent_decl",
+  "description": "Test corpus for agent declarations - symbolic agent entities with capabilities and memory",
+  "grammar_rule": "(agent ⟦IDENTIFIER⟧ ∷ type_expr [specifications])",
+  "valid_samples": [
+    {
+      "id": "agent_001",
+      "description": "Basic agent with type only",
+      "code": "(agent ⟦simple_agent⟧ ∷ Agent)"
+    },
+    {
+      "id": "agent_002",
+      "description": "Agent with capabilities",
+      "code": "(agent ⟦data_processor⟧ ∷ ProcessingAgent capabilities: \"data_validation\", \"format_conversion\")"
+    },
+    {
+      "id": "agent_003",
+      "description": "Agent with memory reference",
+      "code": "(agent ⟦memory_agent⟧ ∷ CognitiveAgent memory: working_memory)"
+    },
+    {
+      "id": "agent_004",
+      "description": "Agent with confidence calibration",
+      "code": "(agent ⟦confident_agent⟧ ∷ ReasoningAgent confidence_calibration: 0.85)"
+    },
+    {
+      "id": "agent_005",
+      "description": "Agent with all specifications",
+      "code": "(agent ⟦comprehensive_agent⟧ ∷ AdvancedAgent capabilities: \"planning\", \"validation\", \"execution\" memory: agent_memory confidence_calibration: 0.92)"
+    },
+    {
+      "id": "agent_006",
+      "description": "Agent with complex capabilities",
+      "code": "(agent ⟦specialist_agent⟧ ∷ SpecialistAgent capabilities: {\"analysis\": \"deep_learning\"}, {\"output\": \"visualization\"}, \"reporting\")"
+    },
+    {
+      "id": "agent_007",
+      "description": "Agent with multiple memory types",
+      "code": "(agent ⟦multi_memory_agent⟧ ∷ HybridAgent memory: primary_memory, secondary_memory, cache_memory)"
+    },
+    {
+      "id": "agent_008",
+      "description": "Agent with maximum capabilities (10)",
+      "code": "(agent ⟦capable_agent⟧ ∷ SuperAgent capabilities: \"c1\", \"c2\", \"c3\", \"c4\", \"c5\", \"c6\", \"c7\", \"c8\", \"c9\", \"c10\")"
+    },
+    {
+      "id": "agent_009",
+      "description": "Agent with Unicode identifier",
+      "code": "(agent ⟦智能代理⟧ ∷ IntelligentAgent capabilities: \"natural_language_processing\")"
+    },
+    {
+      "id": "agent_010",
+      "description": "Agent with validation specification",
+      "code": "(agent ⟦validator_agent⟧ ∷ ValidationAgent validation: contract_validator capabilities: \"contract_checking\", \"compliance_monitoring\")"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "agent_invalid_001",
+      "description": "Missing agent brackets",
+      "code": "(agent simple_agent ∷ Agent)",
+      "error_type": "missing_agent_brackets"
+    },
+    {
+      "id": "agent_invalid_002",
+      "description": "Wrong bracket type",
+      "code": "(agent [simple_agent] ∷ Agent)",
+      "error_type": "wrong_bracket_type"
+    },
+    {
+      "id": "agent_invalid_003",
+      "description": "Missing type annotation",
+      "code": "(agent ⟦simple_agent⟧ capabilities: \"planning\")",
+      "error_type": "missing_type_annotation"
+    },
+    {
+      "id": "agent_invalid_004",
+      "description": "Invalid confidence value (>1.0)",
+      "code": "(agent ⟦bad_agent⟧ ∷ Agent confidence_calibration: 1.5)",
+      "error_type": "confidence_out_of_range"
+    },
+    {
+      "id": "agent_invalid_005",
+      "description": "Too many capabilities (>10)",
+      "code": "(agent ⟦excessive_agent⟧ ∷ Agent capabilities: \"c1\", \"c2\", \"c3\", \"c4\", \"c5\", \"c6\", \"c7\", \"c8\", \"c9\", \"c10\", \"c11\")",
+      "error_type": "cardinality_violation_capabilities"
+    },
+    {
+      "id": "agent_invalid_006",
+      "description": "Empty agent identifier",
+      "code": "(agent ⟦⟧ ∷ Agent)",
+      "error_type": "empty_identifier"
+    },
+    {
+      "id": "agent_invalid_007",
+      "description": "Reserved word as agent name",
+      "code": "(agent ⟦contract⟧ ∷ Agent)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "agent_invalid_008",
+      "description": "Too many memory references (>3)",
+      "code": "(agent ⟦memory_agent⟧ ∷ Agent memory: mem1, mem2, mem3, mem4)",
+      "error_type": "cardinality_violation_memory"
+    },
+    {
+      "id": "agent_invalid_009",
+      "description": "Malformed capability structure",
+      "code": "(agent ⟦bad_caps⟧ ∷ Agent capabilities: {\"incomplete\": })",
+      "error_type": "malformed_capability"
+    },
+    {
+      "id": "agent_invalid_010",
+      "description": "Invalid character in agent name",
+      "code": "(agent ⟦agent@name⟧ ∷ Agent)",
+      "error_type": "invalid_identifier_characters"
+    }
+  ]
+}

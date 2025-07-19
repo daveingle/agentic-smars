@@ -1,0 +1,119 @@
+{
+  "declaration_type": "memory_decl",
+  "description": "Test corpus for memory declarations - symbolic memory and state management",
+  "grammar_rule": "(memory IDENTIFIER memory_spec [metadata])",
+  "valid_samples": [
+    {
+      "id": "memory_001",
+      "description": "Simple working memory",
+      "code": "(memory working_memory capacity: 7_items persistence: volatile)"
+    },
+    {
+      "id": "memory_002",
+      "description": "Long-term memory with persistence",
+      "code": "(memory long_term_storage capacity: unlimited persistence: permanent retention_policy: lru)"
+    },
+    {
+      "id": "memory_003",
+      "description": "Cache memory with TTL",
+      "code": "(memory api_cache capacity: 1000_items persistence: temporary ttl: 3600s)"
+    },
+    {
+      "id": "memory_004",
+      "description": "Episodic memory with tagging",
+      "code": "(memory user_sessions capacity: 500_items persistence: session tags: \"user_interaction\", \"temporal_context\")"
+    },
+    {
+      "id": "memory_005",
+      "description": "Shared memory between agents",
+      "code": "(memory shared_knowledge capacity: unlimited persistence: permanent access_control: read_write shared_with: agent_a, agent_b)"
+    },
+    {
+      "id": "memory_006",
+      "description": "Memory with compression",
+      "code": "(memory compressed_logs capacity: 10000_items persistence: permanent compression: enabled compression_ratio: 0.3)"
+    },
+    {
+      "id": "memory_007",
+      "description": "Priority-based memory",
+      "code": "(memory priority_buffer capacity: 100_items persistence: volatile eviction_policy: priority_lru priority_weights: \"critical\": 1.0, \"normal\": 0.5)"
+    },
+    {
+      "id": "memory_008",
+      "description": "Memory with all metadata",
+      "code": "(memory comprehensive_memory capacity: 5000_items persistence: permanent retention_policy: fifo ttl: 86400s tags: \"system\", \"user_data\" access_control: read_only encryption: enabled)"
+    },
+    {
+      "id": "memory_009",
+      "description": "Hierarchical memory structure",
+      "code": "(memory hierarchical_storage capacity: unlimited persistence: permanent hierarchy_levels: 3 level_capacities: [100, 1000, unlimited])"
+    },
+    {
+      "id": "memory_010",
+      "description": "Memory with backup strategy",
+      "code": "(memory critical_data capacity: 1000_items persistence: permanent backup_strategy: incremental backup_frequency: daily)"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "memory_invalid_001",
+      "description": "Missing memory specification",
+      "code": "(memory empty_memory)",
+      "error_type": "missing_memory_specification"
+    },
+    {
+      "id": "memory_invalid_002",
+      "description": "Invalid capacity format",
+      "code": "(memory bad_capacity capacity: lots_of_items persistence: volatile)",
+      "error_type": "invalid_capacity_format"
+    },
+    {
+      "id": "memory_invalid_003",
+      "description": "Invalid persistence value",
+      "code": "(memory bad_persistence capacity: 100_items persistence: maybe)",
+      "error_type": "invalid_persistence_value"
+    },
+    {
+      "id": "memory_invalid_004",
+      "description": "Too many tags (>5)",
+      "code": "(memory excessive_tags capacity: 100_items persistence: volatile tags: \"tag1\", \"tag2\", \"tag3\", \"tag4\", \"tag5\", \"tag6\")",
+      "error_type": "cardinality_violation_tags"
+    },
+    {
+      "id": "memory_invalid_005",
+      "description": "Invalid TTL format",
+      "code": "(memory bad_ttl capacity: 100_items persistence: temporary ttl: \"one hour\")",
+      "error_type": "invalid_ttl_format"
+    },
+    {
+      "id": "memory_invalid_006",
+      "description": "Invalid compression ratio (>1.0)",
+      "code": "(memory bad_compression capacity: 100_items persistence: permanent compression: enabled compression_ratio: 1.5)",
+      "error_type": "compression_ratio_out_of_range"
+    },
+    {
+      "id": "memory_invalid_007",
+      "description": "Reserved word as memory name",
+      "code": "(memory contract capacity: 100_items persistence: volatile)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "memory_invalid_008",
+      "description": "Too many shared agents (>10)",
+      "code": "(memory excessive_sharing capacity: 100_items persistence: permanent shared_with: a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)",
+      "error_type": "cardinality_violation_shared_agents"
+    },
+    {
+      "id": "memory_invalid_009",
+      "description": "Invalid retention policy",
+      "code": "(memory bad_retention capacity: 100_items persistence: permanent retention_policy: random)",
+      "error_type": "invalid_retention_policy"
+    },
+    {
+      "id": "memory_invalid_010",
+      "description": "Conflicting persistence and TTL",
+      "code": "(memory conflicting_spec capacity: 100_items persistence: permanent ttl: 3600s)",
+      "error_type": "conflicting_persistence_ttl"
+    }
+  ]
+}
