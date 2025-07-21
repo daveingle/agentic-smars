@@ -37,6 +37,8 @@ kind ConflictResolutionProtocol ∷ {
   conflict_detection: ConflictDetection,
   resolution_strategy: ResolutionStrategy,
   arbitration_mechanism: ArbitrationMechanism,
+  constraint_system: ConstraintSystem,
+  verification_paths: [VerificationPath],
   resolution_effectiveness: FLOAT
 }
 
@@ -134,6 +136,8 @@ maplet distributeTasks : (AgentCollaboration, TaskDistribution) → AgentCollabo
 maplet coordinateExecution : (AgentCollaboration, CoordinationProtocol) → AgentCollaboration
 maplet facilitateCommunication : (AgentCollaboration, CommunicationProtocol) → AgentCollaboration
 maplet resolveConflicts : (AgentCollaboration, ConflictResolutionProtocol) → AgentCollaboration
+maplet triangulateConflictResolution : (ConflictResolutionProtocol, [ConstraintEquation]) → Solution
+maplet validateResolutionRobustness : (Solution, [VerificationPath]) → BOOL
 maplet completeCollaboration : (AgentCollaboration, STRING) → AgentCollaboration
 
 maplet assessCollaborationEffectiveness : (AgentCollaboration, Context) → FLOAT
@@ -598,6 +602,18 @@ datum emergentCrisisResponse ∷ EmergentCollaboration ⟦{
 (cue real_time_adaptation ⊨ suggests: allow protocols to adapt during execution based on performance metrics)
 
 (cue multi_modal_collaboration ⊨ suggests: support different collaboration modes within single collaboration)
+
+## Enhanced Cues from Bootstrap
+
+(cue agent_state_persistence ⊨ suggests: implement symbolic memory structures to maintain agent state across interaction cycles)
+
+(cue inter_agent_validation_requests ⊨ suggests: establish protocols for agents to request validation from peer agents using structured messaging)
+
+(cue structured_message_formats ⊨ suggests: establish standardized message schemas for inter-agent communication within SMARS substrate)
+
+(cue communication_failure_handling ⊨ suggests: create robust mechanisms for handling communication failures, timeouts, and unreachable agents)
+
+(cue verification_protocol_standardization ⊨ suggests: establish uniform verification protocols across all agent operations)
 
 // --- Artifact Export
 apply ArtifactExport ∷
