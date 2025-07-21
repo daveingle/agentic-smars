@@ -68,3 +68,9 @@
 )
 
 (kind PromotionLog ∷ [CuePromotionMemo])
+
+// --- Artifact Export
+apply ArtifactExport ∷
+  ▸ concrete_interpreter: evaluateCue, promoteToSpec, recordPromotion functions
+  ▸ traceable_artifact: spec/{{domain}}/promoted-specs.smars.md, cues/promotion-log.md
+  ▸ phase_execution_report: promotion_status with success/failure outcomes

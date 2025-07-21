@@ -93,3 +93,9 @@
 
 (cue integrate_with_promotion
   ⊨ suggests: link DEU generation with cue promotion workflow for iterative refinement)
+
+// --- Artifact Export
+apply ArtifactExport ∷
+  ▸ concrete_interpreter: parsePrompt, generateSpec, validateOutput functions
+  ▸ traceable_artifact: .swift, .json, .sh execution units
+  ▸ phase_execution_report: validation_status with pass/fail results

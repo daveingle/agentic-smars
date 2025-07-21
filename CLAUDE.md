@@ -197,6 +197,15 @@ This ensures both symbolic consistency and reality-grounded execution in the evo
 - Document the journey from symbolic planning to agentic substrate
 
 ## Memories
+=======
+1. **Request Capture** - Create formal SMARS specification in `spec/requests/REQ-NNN-name.smars.md`
+2. **Analysis** - Record insights in `journal/NNN-analysis-topic.md` (system learning focus)
+3. **Cue Generation** - Generate advisory cues in `cues/topic-insights.md` from analysis
+4. **Spec Promotion** - Promote valuable cues to formal specs in appropriate `spec/` subdirectory  
+5. **Implementation** - Create `.implementation.md` files for concrete behavior
+6. **Outcome Tracking** - Record completion in `requests/completed/REQ-NNN-summary.md`
+
+**Key Principle**: Journals are for system evolution insights, not request tracking. Maintain clear separation between journaling (system learning) and request management (workflow execution).
 
 - Always truly validate
 - Prevent symbolic hallucination through artifact requirements
