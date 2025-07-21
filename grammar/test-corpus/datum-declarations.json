@@ -1,0 +1,119 @@
+{
+  "declaration_type": "datum_decl",
+  "description": "Test corpus for datum declarations - symbolic constants with values",
+  "grammar_rule": "(datum ⟦IDENTIFIER⟧ ∷ IDENTIFIER = literal)",
+  "valid_samples": [
+    {
+      "id": "datum_001",
+      "description": "String datum",
+      "code": "(datum ⟦app_name⟧ ∷ STRING = \"SMARS System\")"
+    },
+    {
+      "id": "datum_002",
+      "description": "Integer datum",
+      "code": "(datum ⟦max_users⟧ ∷ INTEGER = 1000)"
+    },
+    {
+      "id": "datum_003",
+      "description": "Float datum with scientific notation",
+      "code": "(datum ⟦pi_approx⟧ ∷ FLOAT = 3.14159e0)"
+    },
+    {
+      "id": "datum_004",
+      "description": "Boolean datum true",
+      "code": "(datum ⟦debug_mode⟧ ∷ BOOL = true)"
+    },
+    {
+      "id": "datum_005",
+      "description": "Boolean datum false",
+      "code": "(datum ⟦production_ready⟧ ∷ BOOL = false)"
+    },
+    {
+      "id": "datum_006",
+      "description": "Negative integer",
+      "code": "(datum ⟦offset⟧ ∷ INTEGER = -42)"
+    },
+    {
+      "id": "datum_007",
+      "description": "Hexadecimal integer",
+      "code": "(datum ⟦color_code⟧ ∷ INTEGER = 0xFF00FF)"
+    },
+    {
+      "id": "datum_008",
+      "description": "Large number with underscores",
+      "code": "(datum ⟦population⟧ ∷ INTEGER = 7_800_000_000)"
+    },
+    {
+      "id": "datum_009",
+      "description": "String with escape sequences",
+      "code": "(datum ⟦welcome_msg⟧ ∷ STRING = \"Hello,\\n\\\"World\\\"!\")"
+    },
+    {
+      "id": "datum_010",
+      "description": "Unicode string content",
+      "code": "(datum ⟦greeting⟧ ∷ STRING = \"Hello 🌍 世界\")"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "datum_invalid_001",
+      "description": "Missing datum brackets",
+      "code": "(datum app_name ∷ STRING = \"SMARS\")",
+      "error_type": "missing_datum_brackets"
+    },
+    {
+      "id": "datum_invalid_002",
+      "description": "Wrong bracket type",
+      "code": "(datum [app_name] ∷ STRING = \"SMARS\")",
+      "error_type": "wrong_bracket_type"
+    },
+    {
+      "id": "datum_invalid_003",
+      "description": "Missing assignment operator",
+      "code": "(datum ⟦app_name⟧ ∷ STRING \"SMARS\")",
+      "error_type": "missing_assignment"
+    },
+    {
+      "id": "datum_invalid_004",
+      "description": "Type mismatch - string value for integer type",
+      "code": "(datum ⟦count⟧ ∷ INTEGER = \"not a number\")",
+      "error_type": "type_value_mismatch"
+    },
+    {
+      "id": "datum_invalid_005",
+      "description": "Missing closing bracket",
+      "code": "(datum ⟦app_name ∷ STRING = \"SMARS\")",
+      "error_type": "unmatched_bracket"
+    },
+    {
+      "id": "datum_invalid_006",
+      "description": "Empty identifier",
+      "code": "(datum ⟦⟧ ∷ STRING = \"value\")",
+      "error_type": "empty_identifier"
+    },
+    {
+      "id": "datum_invalid_007",
+      "description": "Invalid float format",
+      "code": "(datum ⟦rate⟧ ∷ FLOAT = 3.14.15)",
+      "error_type": "malformed_number"
+    },
+    {
+      "id": "datum_invalid_008",
+      "description": "Unterminated string",
+      "code": "(datum ⟦message⟧ ∷ STRING = \"Hello World)",
+      "error_type": "unterminated_string"
+    },
+    {
+      "id": "datum_invalid_009",
+      "description": "Invalid boolean value",
+      "code": "(datum ⟦flag⟧ ∷ BOOL = yes)",
+      "error_type": "invalid_boolean"
+    },
+    {
+      "id": "datum_invalid_010",
+      "description": "Missing type specification",
+      "code": "(datum ⟦value⟧ = 42)",
+      "error_type": "missing_type_annotation"
+    }
+  ]
+}

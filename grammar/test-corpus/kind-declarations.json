@@ -1,0 +1,119 @@
+{
+  "declaration_type": "kind_decl",
+  "description": "Test corpus for kind declarations - structured type definitions",
+  "grammar_rule": "(kind IDENTIFIER ∷ type_expr)",
+  "valid_samples": [
+    {
+      "id": "kind_001",
+      "description": "Simple record type",
+      "code": "(kind User ∷ { name: STRING, email: STRING })"
+    },
+    {
+      "id": "kind_002", 
+      "description": "Primitive type alias",
+      "code": "(kind UserId ∷ INTEGER)"
+    },
+    {
+      "id": "kind_003",
+      "description": "Nested record structure",
+      "code": "(kind Profile ∷ { user: User, settings: { theme: STRING, notifications: BOOL } })"
+    },
+    {
+      "id": "kind_004",
+      "description": "List type",
+      "code": "(kind UserList ∷ [User])"
+    },
+    {
+      "id": "kind_005",
+      "description": "Optional type",
+      "code": "(kind OptionalUser ∷ ?User)"
+    },
+    {
+      "id": "kind_006",
+      "description": "Complex nested structure",
+      "code": "(kind APIResponse ∷ { status: INTEGER, data: [User], meta: { count: INTEGER, page: INTEGER } })"
+    },
+    {
+      "id": "kind_007",
+      "description": "Single field record",
+      "code": "(kind Wrapper ∷ { value: STRING })"
+    },
+    {
+      "id": "kind_008",
+      "description": "Unicode identifier",
+      "code": "(kind Ψυχή ∷ { 意味: STRING })"
+    },
+    {
+      "id": "kind_009",
+      "description": "Underscore in identifier",
+      "code": "(kind User_Profile ∷ { first_name: STRING, last_name: STRING })"
+    },
+    {
+      "id": "kind_010",
+      "description": "Empty record",
+      "code": "(kind EmptyRecord ∷ {})"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "kind_invalid_001",
+      "description": "Missing type annotation symbol",
+      "code": "(kind User { name: STRING })",
+      "error_type": "missing_type_annotation"
+    },
+    {
+      "id": "kind_invalid_002",
+      "description": "Reserved word as identifier",
+      "code": "(kind contract ∷ STRING)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "kind_invalid_003",
+      "description": "Missing closing parenthesis",
+      "code": "(kind User ∷ { name: STRING }",
+      "error_type": "unbalanced_parentheses"
+    },
+    {
+      "id": "kind_invalid_004",
+      "description": "Invalid field syntax",
+      "code": "(kind User ∷ { name STRING, email: STRING })",
+      "error_type": "missing_field_colon"
+    },
+    {
+      "id": "kind_invalid_005",
+      "description": "Empty identifier",
+      "code": "(kind  ∷ STRING)",
+      "error_type": "empty_identifier"
+    },
+    {
+      "id": "kind_invalid_006",
+      "description": "Number as identifier start",
+      "code": "(kind 1User ∷ STRING)",
+      "error_type": "invalid_identifier_start"
+    },
+    {
+      "id": "kind_invalid_007",
+      "description": "Missing type expression",
+      "code": "(kind User ∷ )",
+      "error_type": "missing_type_expression"
+    },
+    {
+      "id": "kind_invalid_008",
+      "description": "Special characters in identifier",
+      "code": "(kind User@Profile ∷ STRING)",
+      "error_type": "invalid_identifier_characters"
+    },
+    {
+      "id": "kind_invalid_009",
+      "description": "Malformed record structure",
+      "code": "(kind User ∷ { name: STRING, })",
+      "error_type": "trailing_comma"
+    },
+    {
+      "id": "kind_invalid_010",
+      "description": "Wrong parenthesis type",
+      "code": "[kind User ∷ STRING]",
+      "error_type": "wrong_delimiter"
+    }
+  ]
+}

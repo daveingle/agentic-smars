@@ -1,0 +1,119 @@
+{
+  "declaration_type": "test_decl",
+  "description": "Test corpus for test declarations - behavioral expectations and verification",
+  "grammar_rule": "(test IDENTIFIER test_spec [metadata])",
+  "valid_samples": [
+    {
+      "id": "test_001",
+      "description": "Simple assertion test",
+      "code": "(test email_validation_works assert: validate_email(\"test@example.com\") = true)"
+    },
+    {
+      "id": "test_002",
+      "description": "Given-when-then test",
+      "code": "(test user_registration_flow given: valid_email_and_password when: register_user(email, password) then: user_created = true)"
+    },
+    {
+      "id": "test_003",
+      "description": "Property-based test",
+      "code": "(test sort_preserves_length property: ∀ list: sort(list).length = list.length)"
+    },
+    {
+      "id": "test_004",
+      "description": "Test with setup and teardown",
+      "code": "(test database_transaction setup: create_test_db when: insert_user(user_data) then: user_exists(user_id) = true teardown: cleanup_test_db)"
+    },
+    {
+      "id": "test_005",
+      "description": "Performance test",
+      "code": "(test api_response_time assert: response_time(api_call()) < 100ms timeout: 5000ms)"
+    },
+    {
+      "id": "test_006",
+      "description": "Test with expected exception",
+      "code": "(test invalid_input_handling given: invalid_data when: process_data(invalid_data) then: throws(ValidationError))"
+    },
+    {
+      "id": "test_007",
+      "description": "Parameterized test",
+      "code": "(test addition_commutative property: ∀ a, b: add(a, b) = add(b, a) examples: [(1, 2), (5, 10), (-3, 7)])"
+    },
+    {
+      "id": "test_008",
+      "description": "Integration test",
+      "code": "(test end_to_end_workflow given: clean_system when: complete_user_journey() then: all_components_working = true category: integration)"
+    },
+    {
+      "id": "test_009",
+      "description": "Test with all metadata",
+      "code": "(test comprehensive_validation given: test_data when: validate_and_process(test_data) then: output_valid = true timeout: 30000ms category: unit priority: high)"
+    },
+    {
+      "id": "test_010",
+      "description": "Mock-based test",
+      "code": "(test service_interaction given: mock_external_service when: call_service(request) then: mock_called_with(expected_request) mocks: external_service)"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "test_invalid_001",
+      "description": "Missing test specification",
+      "code": "(test empty_test timeout: 1000ms)",
+      "error_type": "missing_test_specification"
+    },
+    {
+      "id": "test_invalid_002",
+      "description": "Invalid timeout value (negative)",
+      "code": "(test bad_timeout assert: x = true timeout: -1000ms)",
+      "error_type": "invalid_timeout_value"
+    },
+    {
+      "id": "test_invalid_003",
+      "description": "Malformed given-when-then structure",
+      "code": "(test bad_structure given: data when: then: result = true)",
+      "error_type": "malformed_test_structure"
+    },
+    {
+      "id": "test_invalid_004",
+      "description": "Too many test examples (>20)",
+      "code": "(test excessive_examples property: ∀ x: f(x) = x examples: [(1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (17), (18), (19), (20), (21)])",
+      "error_type": "cardinality_violation_examples"
+    },
+    {
+      "id": "test_invalid_005",
+      "description": "Reserved word as test name",
+      "code": "(test contract assert: x = true)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "test_invalid_006",
+      "description": "Invalid category value",
+      "code": "(test bad_category assert: x = true category: invalid_type)",
+      "error_type": "invalid_category_value"
+    },
+    {
+      "id": "test_invalid_007",
+      "description": "Malformed property quantifier",
+      "code": "(test bad_quantifier property: ∀ : f(x) = x)",
+      "error_type": "malformed_property_quantifier"
+    },
+    {
+      "id": "test_invalid_008",
+      "description": "Too many mocks (>5)",
+      "code": "(test excessive_mocks assert: x = true mocks: mock1, mock2, mock3, mock4, mock5, mock6)",
+      "error_type": "cardinality_violation_mocks"
+    },
+    {
+      "id": "test_invalid_009",
+      "description": "Invalid priority value",
+      "code": "(test bad_priority assert: x = true priority: urgent)",
+      "error_type": "invalid_priority_value"
+    },
+    {
+      "id": "test_invalid_010",
+      "description": "Incomplete assertion expression",
+      "code": "(test incomplete_assertion assert: validate_email() =)",
+      "error_type": "incomplete_assertion_expression"
+    }
+  ]
+}

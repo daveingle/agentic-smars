@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repository implements **Agentic SMARS** - a structured system for symbolic specification and agentic software development using a custom DSL called SMARS (Symbolic Multi-Agent Reasoning System). This is a reference implementation of a symbolic workflow that enables declarative reasoning about plans, tests, branches, and contracts.
+This repository implements **Agentic SMARS** - an evolving multi-agent substrate that bridges symbolic reasoning with emergent agency using SMARS (Symbolic Multi-Agent Reasoning System). The project has progressed from pure symbolic planning to a comprehensive multi-agent environment supporting memory, autonomy, validation, and reality-grounded execution.
 
-**Current State**: The project has achieved **self-evolution milestone** (REQ-006) with fully operational symbolic request management and traceable development workflows.
+**Current State**: Post-"symbolic hallucination" discovery, the project is implementing a six-phase multi-agent architecture alignment roadmap with runtime contract enforcement, inter-agent communication, and external framework integration.
 
 ## Core Architecture
 
@@ -21,12 +21,16 @@ This repository implements **Agentic SMARS** - a structured system for symbolic 
 - `sop/` - Standard Operating Procedure for creating and using SMARS artifacts
 - `cues/` - Symbolic suggestions for potential directions (advisory only)
 - `notes/` - Meta-reflection and design hypotheses
-- `journal/` - Numbered symbolic experiments and explorations (001-006+)
+- `journal/` - Numbered symbolic experiments and explorations (001-021+)
 - `archive/` - Retired or deprecated symbolic models
+- `fake-podcasts/` - Synthetic meta-cognitive analysis documenting evolution journey
+- `experiments/` - Concrete implementations and validation testing
 
 ### SMARS Language Elements
 
 The SMARS DSL includes these core primitives:
+
+### Foundation Elements
 - `@role(...)` - Role-scoping declarations (platform, developer, user)
 - `kind` - Data type definitions with named fields
 - `datum` - Symbolic constants with values
@@ -38,6 +42,14 @@ The SMARS DSL includes these core primitives:
 - `test` - Behavioral expectations
 - `default` - LLM-specific behavior directives
 - `cue` - Advisory suggestions (non-binding)
+
+### Multi-Agent Extensions (Post-Evolution)
+- `agent` - Agent type definitions with persistent state
+- `memory` - Symbolic memory structures for agent persistence
+- `confidence` - First-class uncertainty metrics for decision-making
+- `validation` - Inter-agent validation request protocols
+- `artifact` - Real-world output requirements and verification
+- `communication` - Structured agent messaging primitives
 
 ### Key Symbols
 - `▸` - Function application in apply statements
@@ -61,52 +73,131 @@ Located in `cues/`, contain well-formed advisory cues only. Use format: `(cue id
 
 ## Development Workflow
 
-This project follows the **Integrated Agentic Development Loop** with symbolic request management:
+This project follows the **Evolved Multi-Agent Development Loop** with reality-grounded execution:
 
-### Primary Workflow (use for all development requests)
+### Current Workflow (Post-Hallucination Discovery)
+**CRITICAL**: This workflow includes safeguards against symbolic hallucination - where the system claims success without producing real artifacts.
+
 1. **Request Capture** - Assign request ID (REQ-NNN) and capture in symbolic form
-2. **Journal Analysis** - Create numbered journal entry analyzing the request
-3. **Cue Generation** - Generate symbolic cues from journal insights
-4. **Spec Promotion** - Promote valuable cues to formal SMARS specifications
-5. **Implementation** - Create `.implementation.md` files for concrete behavior
-6. **Validation** - Verify contracts, tests, and plan flows
-7. **Traceability** - Maintain genealogy from request to final artifacts
+2. **Cue Generation** - Generate symbolic cues from analytical insights
+3. **Spec Promotion** - Promote valuable cues to formal SMARS specifications
+4. **Implementation** - Create `.implementation.md` files with concrete artifact requirements
+5. **Reality Verification** - Enforce actual artifact generation and validation
+6. **Journal Analysis** - Create numbered journal entry with meta-cognitive reflection on outcomes
+7. **Multi-Agent Coordination** - Enable inter-agent validation requests and feedback loops
+8. **Traceability** - Maintain full genealogy from request to verified outcomes
 
-### Traditional Loop (for internal spec development)
+### Legacy Workflow (Pre-Evolution - Use Only for Internal Specs)
 1. **Specification Phase** - Create symbolic declarations in `.smars.md`
 2. **Implementation Phase** - Interpret symbols in `.implementation.md`  
 3. **Validation Phase** - Verify contracts, tests, and plan flows
 4. **Cue Declaration Phase** - Capture advisory guidance
 5. **Archival** - Retire deprecated artifacts to `archive/`
 
+### Multi-Agent Architecture Phases (Active Development)
+The project is implementing a six-phase evolution:
+- **Phase 1**: Runtime contract enforcement
+- **Phase 2**: Validation framework with confidence metrics
+- **Phase 3**: Symbolic agency constructs (memory, goals, autonomy)
+- **Phase 4**: Structured inter-agent communication
+- **Phase 5**: Artifact auditing and reality verification
+- **Phase 6**: External framework integration and benchmarking
+
 ## Working with SMARS Files
 
 When editing SMARS specifications:
+
+### Foundation Requirements
 - Validate syntax against `grammar/smars.ebnf.md`
 - Follow the SOP defined in `sop/smars-sop.md`
 - Ensure all symbols are properly declared before use
 - Maintain role-based scoping with `@role(...)` directives
 - Use symbolic forms consistently (prefer `maplet` over informal descriptions)
-- For new requests, follow the integrated agentic workflow above
+
+### Multi-Agent Evolution Requirements
+- **CRITICAL**: Include artifact requirements to prevent symbolic hallucination
+- For new requests, use the evolved workflow with reality verification
+- Implement confidence metrics for uncertain operations
+- Design validation request mechanisms for inter-agent coordination
 - Maintain request traceability through REQ-NNN identifiers
+- Consider memory persistence for agent state management
+- Include communication protocols for multi-agent scenarios
 
 ## No Build System
 
-This repository contains no traditional build, test, or lint commands. It's a symbolic specification system focused on declarative reasoning rather than executable code. Validation occurs through symbolic consistency checking and manual verification against the grammar and SOP.
+This repository contains no traditional build, test, or lint commands. It's a multi-agent substrate focused on bridging symbolic reasoning with emergent agency rather than executable code. Validation occurs through:
+
+- **Symbolic consistency checking** against grammar and SOP
+- **Reality verification** to prevent symbolic hallucination
+- **Artifact auditing** to ensure concrete outputs
+- **Multi-agent coordination testing** for validation protocols
+- **External benchmark integration** for performance measurement
 
 ## Key Documents
 
+### Foundation Documents
 - `grammar/smars.ebnf.md` - Formal EBNF grammar specification
 - `sop/smars-sop.md` - Standard operating procedure for symbolic artifacts
-- `spec/requests/meta-request-management.smars.md` - Symbolic request management workflow
-- `spec/patterns/self-evolving-systems.smars.md` - Self-evolution patterns and capabilities
+
+### Evolution Documentation
+- `fake-podcasts/001-From-Hallucination-to-Integration.md` - Discovery of symbolic hallucination and architectural evolution
+- `fake-podcasts/002.md` - Multi-agent substrate transition and missing agency ingredients
 - `journal/001-agentic-loop.smars.md` - Meta-level development cycle definition
 - `journal/006-self-evolving-workflow-demonstration.md` - Self-evolution milestone achievement
+- Journal entries 007-021+ - Continued evolution toward multi-agent substrate
+
+### Multi-Agent Architecture
+- `spec/requests/meta-request-management.smars.md` - Symbolic request management workflow
+- `spec/patterns/self-evolving-systems.smars.md` - Self-evolution patterns and capabilities
+- `spec/patterns/symbolic-agency-constructs.smars.md` - Agency integration patterns
+- `spec/patterns/agent-collaboration-protocols.smars.md` - Inter-agent communication
+- `spec/automation/artifact-contract-auditing.smars.md` - Reality verification mechanisms
+
+### External Integration
+- Multi-agent systems alignment with FIPA, AutoGen, CAMEL frameworks
+- Benchmarking integration with AgentBench, Arena, GAIA platforms
 
 ## Request Management
 
-**IMPORTANT**: All development requests should follow the integrated agentic workflow:
+**CRITICAL**: All development requests must follow the evolved multi-agent workflow with reality-grounding:
 
+1. **Request Assignment** - Assign REQ-NNN identifier with context analysis
+2. **Cue Generation** - Generate symbolic cues from insights
+3. **Spec Promotion** - Promote cues to formal specifications with artifact requirements
+4. **Implementation** - Create concrete behavior descriptions with validation mechanisms
+5. **Reality Verification** - Ensure actual artifact generation (prevent symbolic hallucination)
+6. **Journal Analysis** - Create numbered entry with meta-cognitive reflection on outcomes
+7. **Multi-Agent Coordination** - Implement validation requests and feedback loops
+8. **Traceability** - Maintain full genealogy with confidence metrics
+
+**Symbolic Hallucination Prevention**: Always require concrete artifacts and validation evidence. The system must not claim success without producing verifiable outputs.
+
+This ensures both symbolic consistency and reality-grounded execution in the evolving multi-agent substrate.
+
+## Critical Insights
+
+### Symbolic Hallucination Discovery
+- **NEVER** allow the system to claim task completion without producing concrete artifacts
+- Always enforce reality verification mechanisms
+- Implement confidence-driven validation requests
+
+### Multi-Agent Evolution
+- SMARS is a substrate, not a single agent
+- Agent memory, goals, and autonomy are essential for true agency
+- Inter-agent communication requires structured protocols
+
+### External Integration
+- Align with established multi-agent frameworks (FIPA, AutoGen)
+- Implement benchmark evaluation for performance measurement
+- Support both symbolic reasoning and emergent behavior
+
+### Meta-Cognitive Development
+- Synthetic dialogue analysis (fake-podcasts) provides valuable architectural insights
+- Self-reflection through multiple perspectives accelerates system evolution
+- Document the journey from symbolic planning to agentic substrate
+
+## Memories
+=======
 1. **Request Capture** - Create formal SMARS specification in `spec/requests/REQ-NNN-name.smars.md`
 2. **Analysis** - Record insights in `journal/NNN-analysis-topic.md` (system learning focus)
 3. **Cue Generation** - Generate advisory cues in `cues/topic-insights.md` from analysis
@@ -116,4 +207,7 @@ This repository contains no traditional build, test, or lint commands. It's a sy
 
 **Key Principle**: Journals are for system evolution insights, not request tracking. Maintain clear separation between journaling (system learning) and request management (workflow execution).
 
-This ensures symbolic consistency and evolutionary capability of the system.
+- Always truly validate
+- Prevent symbolic hallucination through artifact requirements
+- Enable multi-agent collaboration with structured communication
+- Bridge symbolic expressiveness with emergent agency capabilities

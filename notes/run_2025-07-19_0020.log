@@ -1,0 +1,172 @@
+🚀 REAL FOUNDATION MODELS TRUTH DETECTION EVALUATION
+═══════════════════════════════════════════════════════
+Testing actual collaborative truth detection with live API calls
+Dataset: 12 claims across 4 domains
+
+🔄 Running Single Source Baseline...
+  [1/12] Evaluating: The sum of interior angles in any triangle equals ...
+    Predicted: TRUE, Confidence: 0.60, Actual: TRUE
+  [2/12] Evaluating: The sum of interior angles in any triangle equals ...
+    Predicted: FALSE, Confidence: 0.60, Actual: FALSE
+  [3/12] Evaluating: The square root of 2 is approximately 1.414...
+    Predicted: TRUE, Confidence: 0.60, Actual: TRUE
+  [4/12] Evaluating: The mathematical constant π equals exactly 22/7...
+    Predicted: FALSE, Confidence: 0.60, Actual: FALSE
+  [5/12] Evaluating: Light travels at approximately 299,792,458 meters ...
+    Predicted: TRUE, Confidence: 0.60, Actual: TRUE
+  [6/12] Evaluating: Objects fall faster in a vacuum than in air...
+    Predicted: TRUE, Confidence: 0.60, Actual: FALSE
+  [7/12] Evaluating: Quantum tunneling allows particles to pass through...
+    Predicted: TRUE, Confidence: 0.60, Actual: TRUE
+  [8/12] Evaluating: Room-temperature superconductors are commercially ...
+    Predicted: FALSE, Confidence: 0.60, Actual: FALSE
+  [9/12] Evaluating: The COVID-19 pandemic was declared by WHO in March...
+    Predicted: TRUE, Confidence: 0.60, Actual: TRUE
+  [10/12] Evaluating: ChatGPT was released by Google in late 2022...
+    Predicted: FALSE, Confidence: 0.60, Actual: FALSE
+  [11/12] Evaluating: CRISPR-Cas9 uses guide RNA to target specific DNA ...
+    Predicted: TRUE, Confidence: 0.60, Actual: TRUE
+  [12/12] Evaluating: Quantum entanglement enables faster-than-light com...
+    Predicted: FALSE, Confidence: 0.60, Actual: FALSE
+
+🔄 Running Naive Majority Vote Baseline...
+  [1/12] Evaluating: The sum of interior angles in any triangle equals ...
+    Votes: [true, true], Majority: TRUE, Actual: TRUE
+  [2/12] Evaluating: The sum of interior angles in any triangle equals ...
+    Votes: [false, false], Majority: FALSE, Actual: FALSE
+  [3/12] Evaluating: The square root of 2 is approximately 1.414...
+    Votes: [true, false], Majority: FALSE, Actual: TRUE
+  [4/12] Evaluating: The mathematical constant π equals exactly 22/7...
+    Votes: [false, false], Majority: FALSE, Actual: FALSE
+  [5/12] Evaluating: Light travels at approximately 299,792,458 meters ...
+    Votes: [true, true], Majority: TRUE, Actual: TRUE
+  [6/12] Evaluating: Objects fall faster in a vacuum than in air...
+    Votes: [true, true], Majority: TRUE, Actual: FALSE
+  [7/12] Evaluating: Quantum tunneling allows particles to pass through...
+    Votes: [true, true], Majority: TRUE, Actual: TRUE
+  [8/12] Evaluating: Room-temperature superconductors are commercially ...
+    Votes: [false, false], Majority: FALSE, Actual: FALSE
+  [9/12] Evaluating: The COVID-19 pandemic was declared by WHO in March...
+    Votes: [true, true], Majority: TRUE, Actual: TRUE
+  [10/12] Evaluating: ChatGPT was released by Google in late 2022...
+    Votes: [false, false], Majority: FALSE, Actual: FALSE
+  [11/12] Evaluating: CRISPR-Cas9 uses guide RNA to target specific DNA ...
+    Votes: [true, true], Majority: TRUE, Actual: TRUE
+  [12/12] Evaluating: Quantum entanglement enables faster-than-light com...
+    Votes: [false, false], Majority: FALSE, Actual: FALSE
+
+🔄 Running Collaborative Truth Detection...
+  [1/12] Evaluating: The sum of interior angles in any triangle equals ...
+    Sources: [T, T], Convergent: true, Truth Prob: 0.89, Actual: TRUE
+  [2/12] Evaluating: The sum of interior angles in any triangle equals ...
+    Sources: [F, F], Convergent: true, Truth Prob: 0.89, Actual: FALSE
+  [3/12] Evaluating: The square root of 2 is approximately 1.414...
+    Sources: [T, F], Convergent: false, Truth Prob: 0.49, Actual: TRUE
+  [4/12] Evaluating: The mathematical constant π equals exactly 22/7...
+    Sources: [F, F], Convergent: true, Truth Prob: 0.89, Actual: FALSE
+  [5/12] Evaluating: Light travels at approximately 299,792,458 meters ...
+    Sources: [T, T], Convergent: true, Truth Prob: 0.95, Actual: TRUE
+  [6/12] Evaluating: Objects fall faster in a vacuum than in air...
+    Sources: [T, F], Convergent: false, Truth Prob: 0.29, Actual: FALSE
+  [7/12] Evaluating: Quantum tunneling allows particles to pass through...
+    Sources: [T, T], Convergent: true, Truth Prob: 0.95, Actual: TRUE
+  [8/12] Evaluating: Room-temperature superconductors are commercially ...
+    Sources: [F, F], Convergent: true, Truth Prob: 0.95, Actual: FALSE
+  [9/12] Evaluating: The COVID-19 pandemic was declared by WHO in March...
+    Sources: [F, T], Convergent: false, Truth Prob: 0.23, Actual: TRUE
+  [10/12] Evaluating: ChatGPT was released by Google in late 2022...
+    Sources: [F, F], Convergent: true, Truth Prob: 0.95, Actual: FALSE
+  [11/12] Evaluating: CRISPR-Cas9 uses guide RNA to target specific DNA ...
+    Sources: [F, T], Convergent: false, Truth Prob: 0.23, Actual: TRUE
+  [12/12] Evaluating: Quantum entanglement enables faster-than-light com...
+    Sources: [F, F], Convergent: true, Truth Prob: 0.95, Actual: FALSE
+
+================================================================================
+REAL EVALUATION RESULTS
+================================================================================
+📊 SINGLE_SOURCE REAL EVALUATION RESULTS
+═══════════════════════════════════════════════════
+Accuracy:    0.917
+Precision:   0.857
+Recall:      1.000
+F1 Score:    0.923
+Avg Conf:    0.600
+
+Confusion Matrix:
+                 Predicted
+Actual     True  False
+True          6      0
+False         1      5
+
+📊 NAIVE_MAJORITY REAL EVALUATION RESULTS
+═══════════════════════════════════════════════════
+Accuracy:    0.833
+Precision:   0.833
+Recall:      0.833
+F1 Score:    0.833
+Avg Conf:    0.600
+
+Confusion Matrix:
+                 Predicted
+Actual     True  False
+True          5      1
+False         1      5
+
+📊 COLLABORATIVE_DOMAIN_AWARE REAL EVALUATION RESULTS
+═══════════════════════════════════════════════════
+Accuracy:    0.333
+Precision:   0.375
+Recall:      0.500
+F1 Score:    0.429
+Avg Conf:    0.720
+
+Confusion Matrix:
+                 Predicted
+Actual     True  False
+True          3      3
+False         5      1
+
+🏆 REAL COMPARATIVE RESULTS
+══════════════════════════
+Method                     Accuracy  Precision  Recall    F1 Score
+────────────────────────   ────────  ─────────  ──────    ────────
+single_source            0.917     0.857      1.000     0.923
+naive_majority           0.833     0.833      0.833     0.833
+collaborative_domain_a   0.333     0.375      0.500     0.429
+
+🔬 REAL DOMAIN-SPECIFIC ANALYSIS
+════════════════════════════════
+Mathematics:
+  Collaborative: 25.0% (1/4)
+  Single source: 100.0% (4/4)
+  Real improvement: -75.0%
+
+Physics:
+  Collaborative: 75.0% (3/4)
+  Single source: 75.0% (3/4)
+  Real improvement: +0.0%
+
+Recent_Events:
+  Collaborative: 0.0% (0/2)
+  Single source: 100.0% (2/2)
+  Real improvement: -100.0%
+
+Specialized_Science:
+  Collaborative: 0.0% (0/2)
+  Single source: 100.0% (2/2)
+  Real improvement: -100.0%
+
+🎯 REAL VALIDATION RESULTS
+═════════════════════════
+Best performing method: single_source
+F1 Score: 0.923
+Real F1 improvement over single source: -53.6%
+❌ REAL validation: Collaborative method does not outperform baselines
+
+📋 REAL TESTING COMPLETED
+═════════════════════════
+✅ Live Foundation Models API calls
+✅ Real ground truth dataset
+✅ Actual baseline comparisons
+✅ No simulation or mock data
+✅ Reproducible with same dataset

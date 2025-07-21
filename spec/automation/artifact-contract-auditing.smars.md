@@ -185,6 +185,18 @@ contract anti_hallucination_protocol ⊨
 
 (cue detect_symbolic_success_without_output ⊨ suggests: require validateDeliverables to complete all symbolic execution plans)
 
+## Enhanced Cues from Bootstrap
+
+(cue artifact_existence_verification ⊨ suggests: require file system verification before claiming artifact generation success)
+
+(cue contract_deliverable_auditing ⊨ suggests: enhance all contracts with explicit artifact requirements and verification mechanisms)
+
+(cue execution_trace_logging ⊨ suggests: maintain detailed logs of actual operations performed versus symbolic declarations)
+
+(cue phantom_success_detection ⊨ suggests: create monitoring systems that detect when agents claim completion without producing verifiable outputs)
+
+(cue concrete_evidence_requirements ⊨ suggests: mandate that all plan completion claims include file paths, checksums, or other concrete evidence)
+
 ## Meta-Pattern
 
 This specification addresses the critical gap between symbolic plan compliance and operational reality by:

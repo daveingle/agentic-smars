@@ -1,0 +1,119 @@
+{
+  "declaration_type": "plan_decl",
+  "description": "Test corpus for plan declarations - ordered symbolic procedures with metadata",
+  "grammar_rule": "(plan IDENTIFIER [metadata] § steps: step_list)",
+  "valid_samples": [
+    {
+      "id": "plan_001",
+      "description": "Simple plan with basic steps",
+      "code": "(plan register_user § steps: - validate_input - create_account - send_welcome_email)"
+    },
+    {
+      "id": "plan_002",
+      "description": "Plan with confidence metadata",
+      "code": "(plan process_payment confidence: 0.95 § steps: - validate_card - authorize_payment - update_balance)"
+    },
+    {
+      "id": "plan_003",
+      "description": "Plan with uncertainty sources",
+      "code": "(plan weather_prediction confidence: 0.75 uncertainty_sources: \"sensor_accuracy\", \"model_limitations\" § steps: - collect_data - run_models - generate_forecast)"
+    },
+    {
+      "id": "plan_004",
+      "description": "Plan with all metadata types",
+      "code": "(plan complex_workflow confidence: 0.85 uncertainty_sources: \"network_latency\", \"data_quality\" preconditions: system_online = true postconditions: task_completed = true § steps: - initialize_system - process_request - validate_output - cleanup_resources)"
+    },
+    {
+      "id": "plan_005",
+      "description": "Single step plan",
+      "code": "(plan simple_task § steps: - execute_action)"
+    },
+    {
+      "id": "plan_006",
+      "description": "Plan with qualified step names",
+      "code": "(plan service_integration § steps: - auth.validate_token - data.fetch_records - api.send_response)"
+    },
+    {
+      "id": "plan_007",
+      "description": "Plan with conditional step",
+      "code": "(plan adaptive_processing § steps: - analyze_input - if data_valid: process_data else: handle_error - generate_output)"
+    },
+    {
+      "id": "plan_008",
+      "description": "Plan with parallel execution",
+      "code": "(plan parallel_tasks § steps: - prepare_environment - parallel: {fetch_data, validate_permissions, initialize_cache} - combine_results)"
+    },
+    {
+      "id": "plan_009",
+      "description": "Plan with loop step",
+      "code": "(plan batch_processing § steps: - setup_batch - while items_remaining: process_item - finalize_batch)"
+    },
+    {
+      "id": "plan_010",
+      "description": "Maximum steps (20)",
+      "code": "(plan comprehensive_workflow § steps: - step01 - step02 - step03 - step04 - step05 - step06 - step07 - step08 - step09 - step10 - step11 - step12 - step13 - step14 - step15 - step16 - step17 - step18 - step19 - step20)"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "plan_invalid_001",
+      "description": "Missing steps section",
+      "code": "(plan incomplete_plan confidence: 0.8)",
+      "error_type": "missing_steps_section"
+    },
+    {
+      "id": "plan_invalid_002",
+      "description": "Empty steps list",
+      "code": "(plan empty_steps § steps:)",
+      "error_type": "no_steps_defined"
+    },
+    {
+      "id": "plan_invalid_003",
+      "description": "Missing section delimiter",
+      "code": "(plan missing_delimiter confidence: 0.8 steps: - validate - process)",
+      "error_type": "missing_section_delimiter"
+    },
+    {
+      "id": "plan_invalid_004",
+      "description": "Invalid confidence value (>1.0)",
+      "code": "(plan invalid_confidence confidence: 1.5 § steps: - process_data)",
+      "error_type": "confidence_out_of_range"
+    },
+    {
+      "id": "plan_invalid_005",
+      "description": "Too many steps (>20)",
+      "code": "(plan excessive_steps § steps: - s01 - s02 - s03 - s04 - s05 - s06 - s07 - s08 - s09 - s10 - s11 - s12 - s13 - s14 - s15 - s16 - s17 - s18 - s19 - s20 - s21)",
+      "error_type": "cardinality_violation_steps"
+    },
+    {
+      "id": "plan_invalid_006",
+      "description": "Too many uncertainty sources (>5)",
+      "code": "(plan too_many_sources uncertainty_sources: \"s1\", \"s2\", \"s3\", \"s4\", \"s5\", \"s6\" § steps: - process)",
+      "error_type": "cardinality_violation_uncertainty"
+    },
+    {
+      "id": "plan_invalid_007",
+      "description": "Invalid step syntax - missing dash",
+      "code": "(plan bad_step_syntax § steps: validate_input - process_data)",
+      "error_type": "invalid_step_syntax"
+    },
+    {
+      "id": "plan_invalid_008",
+      "description": "Reserved word as plan name",
+      "code": "(plan contract § steps: - execute_task)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "plan_invalid_009",
+      "description": "Malformed conditional step",
+      "code": "(plan bad_conditional § steps: - if condition process_data else handle_error)",
+      "error_type": "malformed_conditional_step"
+    },
+    {
+      "id": "plan_invalid_010",
+      "description": "Metadata after steps section",
+      "code": "(plan wrong_order § steps: - process_data confidence: 0.8)",
+      "error_type": "metadata_ordering_violation"
+    }
+  ]
+}

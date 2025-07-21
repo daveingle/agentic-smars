@@ -1,0 +1,119 @@
+{
+  "declaration_type": "maplet_decl",
+  "description": "Test corpus for maplet declarations - typed function declarations with domain and codomain",
+  "grammar_rule": "(maplet IDENTIFIER ∷ type_expr → type_expr [metadata])",
+  "valid_samples": [
+    {
+      "id": "maplet_001",
+      "description": "Simple function type",
+      "code": "(maplet validate_email ∷ String → Boolean)"
+    },
+    {
+      "id": "maplet_002",
+      "description": "Function with pure annotation",
+      "code": "(maplet calculate_hash ∷ Data → Hash pure: true)"
+    },
+    {
+      "id": "maplet_003",
+      "description": "Function with complexity metadata",
+      "code": "(maplet sort_data ∷ List → List complexity: O(n*log(n)))"
+    },
+    {
+      "id": "maplet_004",
+      "description": "Multiple parameter function",
+      "code": "(maplet authenticate_user ∷ (Username, Password) → AuthResult)"
+    },
+    {
+      "id": "maplet_005",
+      "description": "Higher-order function",
+      "code": "(maplet map_transform ∷ (Data → Result, List) → List)"
+    },
+    {
+      "id": "maplet_006",
+      "description": "Function with all metadata",
+      "code": "(maplet process_payment ∷ PaymentData → PaymentResult pure: false complexity: O(1) side_effects: \"database_write\", \"network_call\")"
+    },
+    {
+      "id": "maplet_007",
+      "description": "Curried function syntax",
+      "code": "(maplet curry_add ∷ Number → Number → Number)"
+    },
+    {
+      "id": "maplet_008",
+      "description": "Generic type parameters",
+      "code": "(maplet identity ∷ T → T)"
+    },
+    {
+      "id": "maplet_009",
+      "description": "Unit type function",
+      "code": "(maplet initialize_system ∷ Unit → SystemState)"
+    },
+    {
+      "id": "maplet_010",
+      "description": "Complex nested types",
+      "code": "(maplet transform_data ∷ Map<String, List<Data>> → Result<ProcessedData, Error>)"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "maplet_invalid_001",
+      "description": "Missing function arrow",
+      "code": "(maplet missing_arrow ∷ String Boolean)",
+      "error_type": "missing_function_arrow"
+    },
+    {
+      "id": "maplet_invalid_002",
+      "description": "Missing type annotation",
+      "code": "(maplet no_types ∷ → Boolean)",
+      "error_type": "missing_domain_type"
+    },
+    {
+      "id": "maplet_invalid_003",
+      "description": "Missing codomain type",
+      "code": "(maplet no_codomain ∷ String →)",
+      "error_type": "missing_codomain_type"
+    },
+    {
+      "id": "maplet_invalid_004",
+      "description": "Invalid complexity notation",
+      "code": "(maplet bad_complexity ∷ Data → Result complexity: Big-O(n^2))",
+      "error_type": "invalid_complexity_notation"
+    },
+    {
+      "id": "maplet_invalid_005",
+      "description": "Too many side effects (>5)",
+      "code": "(maplet excessive_effects ∷ Data → Result side_effects: \"e1\", \"e2\", \"e3\", \"e4\", \"e5\", \"e6\")",
+      "error_type": "cardinality_violation_side_effects"
+    },
+    {
+      "id": "maplet_invalid_006",
+      "description": "Reserved word as maplet name",
+      "code": "(maplet contract ∷ String → Boolean)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "maplet_invalid_007",
+      "description": "Malformed tuple type",
+      "code": "(maplet bad_tuple ∷ (String, → Boolean)",
+      "error_type": "malformed_tuple_type"
+    },
+    {
+      "id": "maplet_invalid_008",
+      "description": "Invalid generic syntax",
+      "code": "(maplet bad_generic ∷ List<> → Boolean)",
+      "error_type": "malformed_generic_type"
+    },
+    {
+      "id": "maplet_invalid_009",
+      "description": "Empty parameter list",
+      "code": "(maplet empty_params ∷ () → Result)",
+      "error_type": "empty_parameter_list"
+    },
+    {
+      "id": "maplet_invalid_010",
+      "description": "Invalid pure value",
+      "code": "(maplet bad_pure ∷ String → Boolean pure: maybe)",
+      "error_type": "invalid_pure_value"
+    }
+  ]
+}

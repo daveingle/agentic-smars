@@ -1,0 +1,119 @@
+{
+  "declaration_type": "cue_decl",
+  "description": "Test corpus for cue declarations - advisory suggestions and guidance",
+  "grammar_rule": "(cue IDENTIFIER [metadata] ⊨ suggests: cue_content)",
+  "valid_samples": [
+    {
+      "id": "cue_001",
+      "description": "Simple text suggestion",
+      "code": "(cue improve_validation ⊨ suggests: \"Add input validation for user data\")"
+    },
+    {
+      "id": "cue_002",
+      "description": "Cue with priority metadata",
+      "code": "(cue security_enhancement priority: high ⊨ suggests: \"Implement two-factor authentication\")"
+    },
+    {
+      "id": "cue_003",
+      "description": "Cue with context and expiration",
+      "code": "(cue performance_optimization context: \"database_queries\" expires: \"2024-12-31\" ⊨ suggests: \"Consider query optimization and indexing\")"
+    },
+    {
+      "id": "cue_004",
+      "description": "Cue with structured suggestion",
+      "code": "(cue architecture_improvement ⊨ suggests: {\"component\": \"user_service\", \"action\": \"refactor\", \"priority\": \"medium\"})"
+    },
+    {
+      "id": "cue_005",
+      "description": "Cue with all metadata types",
+      "code": "(cue comprehensive_suggestion priority: critical context: \"security\" expires: \"2024-06-30\" ⊨ suggests: \"Patch security vulnerability in authentication module\")"
+    },
+    {
+      "id": "cue_006",
+      "description": "Cue with technical implementation details",
+      "code": "(cue api_enhancement ⊨ suggests: \"Implement rate limiting with Redis backend and exponential backoff\")"
+    },
+    {
+      "id": "cue_007",
+      "description": "Cue with complex structured content",
+      "code": "(cue monitoring_setup ⊨ suggests: {\"metrics\": [\"response_time\", \"error_rate\"], \"tools\": \"prometheus\", \"alerts\": {\"threshold\": 0.95, \"channel\": \"slack\"}})"
+    },
+    {
+      "id": "cue_008",
+      "description": "Cue with low priority",
+      "code": "(cue code_cleanup priority: low ⊨ suggests: \"Remove unused imports and format code consistently\")"
+    },
+    {
+      "id": "cue_009",
+      "description": "Cue with multiline suggestion",
+      "code": "(cue deployment_strategy ⊨ suggests: \"Consider blue-green deployment:\\n1. Deploy to staging environment\\n2. Run integration tests\\n3. Switch traffic gradually\")"
+    },
+    {
+      "id": "cue_010",
+      "description": "Cue with Unicode content",
+      "code": "(cue internationalization ⊨ suggests: \"Add support for 中文, العربية, and русский language locales\")"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "cue_invalid_001",
+      "description": "Missing suggests keyword",
+      "code": "(cue missing_suggests ⊨ \"Add validation\")",
+      "error_type": "missing_suggests_keyword"
+    },
+    {
+      "id": "cue_invalid_002",
+      "description": "Missing entailment symbol",
+      "code": "(cue missing_entailment suggests: \"Add validation\")",
+      "error_type": "missing_entailment_symbol"
+    },
+    {
+      "id": "cue_invalid_003",
+      "description": "Empty suggestion content",
+      "code": "(cue empty_suggestion ⊨ suggests: \"\")",
+      "error_type": "empty_suggestion"
+    },
+    {
+      "id": "cue_invalid_004",
+      "description": "Invalid priority value",
+      "code": "(cue bad_priority priority: urgent ⊨ suggests: \"Fix this now\")",
+      "error_type": "invalid_priority_value"
+    },
+    {
+      "id": "cue_invalid_005",
+      "description": "Reserved word as cue name",
+      "code": "(cue contract ⊨ suggests: \"Add contract validation\")",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "cue_invalid_006",
+      "description": "Malformed structured suggestion",
+      "code": "(cue bad_structure ⊨ suggests: {\"incomplete\": })",
+      "error_type": "malformed_structured_suggestion"
+    },
+    {
+      "id": "cue_invalid_007",
+      "description": "Missing colon after suggests",
+      "code": "(cue missing_colon ⊨ suggests \"Add validation\")",
+      "error_type": "missing_suggests_colon"
+    },
+    {
+      "id": "cue_invalid_008",
+      "description": "Invalid metadata syntax",
+      "code": "(cue bad_metadata priority high ⊨ suggests: \"Fix metadata\")",
+      "error_type": "invalid_metadata_syntax"
+    },
+    {
+      "id": "cue_invalid_009",
+      "description": "Too many suggestion properties (>10)",
+      "code": "(cue excessive_props ⊨ suggests: {\"p1\": \"v1\", \"p2\": \"v2\", \"p3\": \"v3\", \"p4\": \"v4\", \"p5\": \"v5\", \"p6\": \"v6\", \"p7\": \"v7\", \"p8\": \"v8\", \"p9\": \"v9\", \"p10\": \"v10\", \"p11\": \"v11\"})",
+      "error_type": "cardinality_violation_properties"
+    },
+    {
+      "id": "cue_invalid_010",
+      "description": "Unterminated string in suggestion",
+      "code": "(cue unterminated ⊨ suggests: \"This string is not closed)",
+      "error_type": "unterminated_string"
+    }
+  ]
+}

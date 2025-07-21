@@ -1,0 +1,11 @@
+# Implementation Directory
+
+This directory will contain the actual code implementation of the SMARS-based mathematical reasoning system.
+
+## Structure
+- `core/` - Core reasoning engine
+- `parsers/` - Problem parsing modules
+- `validators/` - Step validation systems
+- `scorers/` - Trajectory scoring engines
+- `automation/` - Automation and orchestration
+- `tests/` - Implementation tests

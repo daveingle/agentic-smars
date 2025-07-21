@@ -1,0 +1,119 @@
+{
+  "declaration_type": "apply_decl",
+  "description": "Test corpus for apply declarations - function application expressions",
+  "grammar_rule": "(apply IDENTIFIER ▸ function_name arguments [metadata])",
+  "valid_samples": [
+    {
+      "id": "apply_001",
+      "description": "Simple function application",
+      "code": "(apply validation_result ▸ validate_email \"user@example.com\")"
+    },
+    {
+      "id": "apply_002",
+      "description": "Multiple arguments",
+      "code": "(apply auth_result ▸ authenticate_user \"john_doe\" \"password123\")"
+    },
+    {
+      "id": "apply_003",
+      "description": "Nested function application",
+      "code": "(apply final_result ▸ process_data (▸ fetch_data user_id))"
+    },
+    {
+      "id": "apply_004",
+      "description": "Application with confidence metadata",
+      "code": "(apply prediction ▸ predict_weather sensor_data confidence: 0.87)"
+    },
+    {
+      "id": "apply_005",
+      "description": "Curried function application",
+      "code": "(apply add_ten ▸ add 10)"
+    },
+    {
+      "id": "apply_006",
+      "description": "Higher-order function application",
+      "code": "(apply mapped_data ▸ map_transform transform_fn input_list)"
+    },
+    {
+      "id": "apply_007",
+      "description": "Application with complex arguments",
+      "code": "(apply processed_payment ▸ process_payment {amount: 100.00, currency: \"USD\", method: \"credit_card\"})"
+    },
+    {
+      "id": "apply_008",
+      "description": "Chain of applications",
+      "code": "(apply final_output ▸ format_result (▸ validate_result (▸ process_input raw_data)))"
+    },
+    {
+      "id": "apply_009",
+      "description": "Application with all metadata",
+      "code": "(apply secure_hash ▸ calculate_hash sensitive_data confidence: 1.0 memoized: true side_effects: \"none\")"
+    },
+    {
+      "id": "apply_010",
+      "description": "Parallel function application",
+      "code": "(apply combined_result ▸ merge_results (▸ process_a data_a) (▸ process_b data_b))"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "apply_invalid_001",
+      "description": "Missing application symbol",
+      "code": "(apply missing_symbol validate_email \"test@example.com\")",
+      "error_type": "missing_application_symbol"
+    },
+    {
+      "id": "apply_invalid_002",
+      "description": "Missing function name",
+      "code": "(apply result ▸ \"argument\")",
+      "error_type": "missing_function_name"
+    },
+    {
+      "id": "apply_invalid_003",
+      "description": "Too many arguments (>10)",
+      "code": "(apply excessive_args ▸ func arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 arg11)",
+      "error_type": "cardinality_violation_arguments"
+    },
+    {
+      "id": "apply_invalid_004",
+      "description": "Invalid confidence value (>1.0)",
+      "code": "(apply bad_confidence ▸ predict_weather data confidence: 1.5)",
+      "error_type": "confidence_out_of_range"
+    },
+    {
+      "id": "apply_invalid_005",
+      "description": "Malformed nested application",
+      "code": "(apply bad_nested ▸ process_data (▸ fetch_data))",
+      "error_type": "malformed_nested_application"
+    },
+    {
+      "id": "apply_invalid_006",
+      "description": "Reserved word as apply name",
+      "code": "(apply contract ▸ validate_data input)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "apply_invalid_007",
+      "description": "Empty argument structure",
+      "code": "(apply empty_args ▸ process_data {})",
+      "error_type": "empty_argument_structure"
+    },
+    {
+      "id": "apply_invalid_008",
+      "description": "Invalid memoized value",
+      "code": "(apply bad_memo ▸ expensive_function data memoized: \"yes\")",
+      "error_type": "invalid_memoized_value"
+    },
+    {
+      "id": "apply_invalid_009",
+      "description": "Unterminated string argument",
+      "code": "(apply unterminated ▸ process_text \"incomplete string)",
+      "error_type": "unterminated_string_argument"
+    },
+    {
+      "id": "apply_invalid_010",
+      "description": "Missing arguments for required function",
+      "code": "(apply no_args ▸ authenticate_user)",
+      "error_type": "missing_required_arguments"
+    }
+  ]
+}

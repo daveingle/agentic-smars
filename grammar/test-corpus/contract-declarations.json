@@ -1,0 +1,119 @@
+{
+  "declaration_type": "contract_decl",
+  "description": "Test corpus for contract declarations - behavioral requirements and guarantees",
+  "grammar_rule": "(contract IDENTIFIER [requires_clause] [ensures_clause])",
+  "valid_samples": [
+    {
+      "id": "contract_001",
+      "description": "Simple requires/ensures contract",
+      "code": "(contract user_validation ⊨ requires: email_valid = true ⊨ ensures: user_created = true)"
+    },
+    {
+      "id": "contract_002",
+      "description": "Multiple requires clauses",
+      "code": "(contract data_processing ⊨ requires: input_valid = true ⊨ requires: permissions_granted = true ⊨ ensures: output_generated = true)"
+    },
+    {
+      "id": "contract_003",
+      "description": "Complex logical conditions",
+      "code": "(contract security_check ⊨ requires: authenticated = true ∧ authorized = true ⊨ ensures: access_granted = true)"
+    },
+    {
+      "id": "contract_004",
+      "description": "Comparison conditions",
+      "code": "(contract rate_limiting ⊨ requires: request_count < 100 ⊨ ensures: request_processed = true)"
+    },
+    {
+      "id": "contract_005",
+      "description": "Only requires clause",
+      "code": "(contract validation_only ⊨ requires: data_present = true)"
+    },
+    {
+      "id": "contract_006",
+      "description": "Only ensures clause",
+      "code": "(contract output_guarantee ⊨ ensures: result_valid = true)"
+    },
+    {
+      "id": "contract_007",
+      "description": "Predicate function calls",
+      "code": "(contract email_verification ⊨ requires: valid_email(user_input) = true ⊨ ensures: email_verified = true)"
+    },
+    {
+      "id": "contract_008",
+      "description": "Multiple ensures clauses",
+      "code": "(contract transaction ⊨ requires: balance_sufficient = true ⊨ ensures: payment_processed = true ⊨ ensures: receipt_generated = true)"
+    },
+    {
+      "id": "contract_009",
+      "description": "Negation in conditions",
+      "code": "(contract error_handling ⊨ requires: ¬error_occurred = true ⊨ ensures: success_status = true)"
+    },
+    {
+      "id": "contract_010",
+      "description": "Numeric comparisons",
+      "code": "(contract capacity_check ⊨ requires: current_load ≤ max_capacity ⊨ ensures: system_stable = true)"
+    }
+  ],
+  "invalid_samples": [
+    {
+      "id": "contract_invalid_001",
+      "description": "Missing entailment symbol",
+      "code": "(contract test requires: x = true ensures: y = true)",
+      "error_type": "missing_entailment_symbol"
+    },
+    {
+      "id": "contract_invalid_002",
+      "description": "Empty contract - no clauses",
+      "code": "(contract empty_contract)",
+      "error_type": "no_contract_clauses"
+    },
+    {
+      "id": "contract_invalid_003",
+      "description": "Wrong clause order - ensures before requires",
+      "code": "(contract wrong_order ⊨ ensures: y = true ⊨ requires: x = true)",
+      "error_type": "clause_ordering_violation"
+    },
+    {
+      "id": "contract_invalid_004",
+      "description": "Malformed condition expression",
+      "code": "(contract bad_condition ⊨ requires: x = ⊨ ensures: y = true)",
+      "error_type": "malformed_condition"
+    },
+    {
+      "id": "contract_invalid_005",
+      "description": "Too many requires clauses (>10)",
+      "code": "(contract excessive_requires ⊨ requires: c1 = true ⊨ requires: c2 = true ⊨ requires: c3 = true ⊨ requires: c4 = true ⊨ requires: c5 = true ⊨ requires: c6 = true ⊨ requires: c7 = true ⊨ requires: c8 = true ⊨ requires: c9 = true ⊨ requires: c10 = true ⊨ requires: c11 = true)",
+      "error_type": "cardinality_violation_requires"
+    },
+    {
+      "id": "contract_invalid_006",
+      "description": "Invalid comparison operator",
+      "code": "(contract bad_operator ⊨ requires: x <> y ⊨ ensures: result = true)",
+      "error_type": "invalid_comparison_operator"
+    },
+    {
+      "id": "contract_invalid_007",
+      "description": "Missing colon after requires",
+      "code": "(contract missing_colon ⊨ requires x = true ⊨ ensures: y = true)",
+      "error_type": "missing_clause_colon"
+    },
+    {
+      "id": "contract_invalid_008",
+      "description": "Reserved word as contract name",
+      "code": "(contract plan ⊨ requires: x = true ⊨ ensures: y = true)",
+      "error_type": "reserved_word_identifier"
+    },
+    {
+      "id": "contract_invalid_009",
+      "description": "Unbalanced parentheses in condition",
+      "code": "(contract unbalanced ⊨ requires: (x = true ∧ y = false ⊨ ensures: result = true)",
+      "error_type": "unbalanced_parentheses"
+    },
+    {
+      "id": "contract_invalid_010",
+      "description": "Invalid logical operator",
+      "code": "(contract bad_logic ⊨ requires: x = true XOR y = false ⊨ ensures: result = true)",
+      "error_type": "invalid_logical_operator"
+    }
+  ]
+}

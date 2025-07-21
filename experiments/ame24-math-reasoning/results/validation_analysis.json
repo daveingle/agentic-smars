@@ -1,0 +1,56 @@
+{
+  "framework_components": {
+    "problem_parsing": {
+      "status": "\u2713 FUNCTIONAL",
+      "success_rate": 1.0,
+      "details": [
+        "Successfully parsed 3/3 problems",
+        "Success rate: 100.0%"
+      ]
+    },
+    "trajectory_generation": {
+      "status": "\u2713 FUNCTIONAL",
+      "avg_trajectories": 3.0,
+      "details": [
+        "Generated 9 total trajectories",
+        "Average 3.0 trajectories per problem",
+        "Multiple approaches generated"
+      ]
+    },
+    "step_validation": {
+      "status": "\u2713 FUNCTIONAL",
+      "avg_validity": 0.8718750000000001,
+      "details": [
+        "Average validation score: 0.872",
+        "Validation effective"
+      ]
+    },
+    "trajectory_scoring": {
+      "status": "\u2713 FUNCTIONAL",
+      "avg_confidence": 0.8999999999999999,
+      "details": [
+        "Average trajectory confidence: 0.900",
+        "Scoring effective"
+      ]
+    },
+    "trajectory_selection": {
+      "status": "\u2717 NEEDS WORK",
+      "selection_rate": 0.6666666666666666,
+      "details": [
+        "Correct selections: 2/3",
+        "Selection accuracy: 66.7%"
+      ]
+    }
+  },
+  "mathematical_correctness": {
+    "accuracy": 66.66666666666666,
+    "correct_count": 2,
+    "total_count": 3
+  },
+  "system_performance": {
+    "overall_score": 0.7777083333333333,
+    "accuracy": 0.6666666666666666,
+    "avg_confidence": 0.8999999999999999,
+    "avg_validity": 0.8718750000000001
+  }
+}
