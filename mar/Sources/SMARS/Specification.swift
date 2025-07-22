@@ -8,7 +8,7 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "A serializable, uniquely stringified ISO 8601 date for deterministic code generation and traceability.")
 public struct GenerableDate: Sendable, Hashable, CustomStringConvertible {
   public let dateString: String
 
@@ -29,37 +29,34 @@ public struct GenerableDate: Sendable, Hashable, CustomStringConvertible {
   }
 }
 
-@Generable
+@Generable(description: "A complete, role-anchored system specification: defines all atoms (types, constants, signatures, requirements, plans, and branches) for multi-agent reasoning with contextual boundaries.")
 public struct SMARSSpecification: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "Unique identifier for this specification")
+  @Guide(description: "Globally unique, human-readable identifier for this specification (e.g., system or project name)")
   public let id: String
   
-  @Guide(description: "The role context for this specification (e.g., platform, developer, user)")
+  @Guide(description: "Root actor or perspective—controls interpretation and authority across the specification")
   public let role: Role
   
-  @Guide(description: "Data structure type definitions")
+  @Guide(description: "Schema definitions: custom structured types with named, typed fields")
   public let kinds: [Kind]
   
-  @Guide(description: "Symbolic constants with values")
+  @Guide(description: "Immutable symbolic constants—configuration or reference values shared across the system")
   public let data: [Datum]
   
-  @Guide(description: "Function type declarations")
+  @Guide(description: "Function signatures/interfaces: input-output type declarations without implementations")
   public let maplets: [Maplet]
   
-  @Guide(description: "Function application instances")
+  @Guide(description: "Specific function/maplet invocations: actual arguments and results for each call")
   public let applications: [Apply]
   
-  @Guide(description: "Behavioral contracts with preconditions and postconditions")
+  @Guide(description: "Interface requirements: preconditions, postconditions, and guarantees for behavioral correctness")
   public let contracts: [Contract]
   
-  @Guide(description: "Ordered procedural plans with confidence metrics")
+  @Guide(description: "Procedural workflows—ordered steps, often for multi-step tasks or goals, with confidence tracking")
   public let plans: [Plan]
   
-  @Guide(description: "Conditional branching logic")
+  @Guide(description: "Conditional logic: decision points and execution paths based on runtime criteria")
   public let branches: [Branch]
-  
-  @Guide(description: "Metadata about this specification")
-  public let metadata: SpecificationMetadata
   
   public init(id: String,
               role: Role,
@@ -69,8 +66,7 @@ public struct SMARSSpecification: Sendable, Hashable, CustomStringConvertible {
               applications: [Apply] = [],
               contracts: [Contract] = [],
               plans: [Plan] = [],
-              branches: [Branch] = [],
-              metadata: SpecificationMetadata = SpecificationMetadata()) {
+              branches: [Branch] = []) {
     self.id = id
     self.role = role
     self.kinds = kinds
@@ -80,7 +76,6 @@ public struct SMARSSpecification: Sendable, Hashable, CustomStringConvertible {
     self.contracts = contracts
     self.plans = plans
     self.branches = branches
-    self.metadata = metadata
   }
   
   // MARK: - CustomStringConvertible (symbolic serialisation)
@@ -131,46 +126,6 @@ public struct SMARSSpecification: Sendable, Hashable, CustomStringConvertible {
   }
 }
 
-@Generable
-public struct SpecificationMetadata: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "When this specification was created")
-  public let created: GenerableDate
-  
-  @Guide(description: "When this specification was last modified")
-  public let modified: GenerableDate
-  
-  @Guide(description: "Version identifier for this specification")
-  public let version: String
-  
-  @Guide(description: "Intent of what this specification defines")
-  public let intent: String
-
-  @Guide(description: "Optional array of tags for categorizing this specification")
-  public let tags: [String]
-  
-  public init(created: GenerableDate = GenerableDate(),
-              modified: GenerableDate = GenerableDate(),
-              version: String = "1.0.0",
-              intent: String = "",
-              tags: [String] = []) {
-    self.created = created
-    self.modified = modified
-    self.version = version
-    self.intent = intent
-    self.tags = tags
-  }
-  
-  public var description: String {
-    var components = ["v\(version)", "created:\(created)", "modified:\(modified)"]
-    components.append("intent:\(intent)")
-    
-    if !tags.isEmpty {
-      components.append("tags:[\(tags.joined(separator: ","))]")
-    }
-    
-    return components.joined(separator: " ")
-  }
-}
 
 // MARK: - Language Model Integration Extensions
 
@@ -180,11 +135,8 @@ public extension SMARSSpecification {
     """
     SMARS Specification: \(id)
     Role: \(role.title)
-    Version: \(metadata.version)
     
     \(description)
-    
-    Metadata: \(metadata.description)")
     """
   }
   

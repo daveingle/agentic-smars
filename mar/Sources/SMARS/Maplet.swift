@@ -8,13 +8,13 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Function type declaration specifying domain and codomain - defines function signature without implementation")
 public struct Maplet: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "The function name identifier")
+  @Guide(description: "Function name identifier - should be descriptive and typically snake_case")
   public let name: String
-  @Guide(description: "The input type(s) - domain of the function (e.g., STRING, (STRING, INTEGER) for multiple parameters)")
+  @Guide(description: "Input type domain - single type or tuple like (Type1, Type2) for multiple parameters")
   public let domain: String
-  @Guide(description: "The output type - codomain of the function (e.g., BOOL, AuthResult)")
+  @Guide(description: "Output type codomain - return type of the function")
   public let codomain: String
 
   public init(_ name: String, domain: String, codomain: String) {

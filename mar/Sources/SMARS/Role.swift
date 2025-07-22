@@ -9,9 +9,9 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Role directive that scopes SMARS specification perspective to a specific actor type")
 public struct Role: Sendable, Hashable, CustomStringConvertible  {
-  @Guide(description: "The role identifier - any string identifying the actor's perspective (e.g., platform, developer, user, agent, etc.)")
+  @Guide(description: "Role identifier string - typically 'platform', 'developer', 'user', 'agent', but can be any actor perspective")
   public let title: String
 
   public init(_ title: String) {

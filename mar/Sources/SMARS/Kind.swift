@@ -8,11 +8,11 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Data structure definition with named typed fields - equivalent to struct or record types")
 public struct Kind: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "The type name identifier for this data structure")
+  @Guide(description: "Unique type name identifier - should be CamelCase and descriptive")
   public let name: String
-  @Guide(description: "Array of typed fields that define the structure's schema")
+  @Guide(description: "List of typed fields defining the structure schema - each field has name and type symbol")
   public let fields: [Field]
 
   public init(_ name: String, _ fields: Field...) {
@@ -32,11 +32,11 @@ public struct Kind: Sendable, Hashable, CustomStringConvertible {
 
 // MARK: ‑ Field
 
-@Generable
+@Generable(description: "Typed field within a Kind structure - defines name and type for a single data element")
 public struct Field: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "The field name identifier")
+  @Guide(description: "Field name - should be camelCase identifier")
   public let name: String
-  @Guide(description: "The type symbol for this field (e.g., STRING, INTEGER, BOOL, or custom type names)")
+  @Guide(description: "Type symbol - primitive types (STRING, INTEGER, FLOAT, BOOL) or custom Kind names")
   public let symbol: String
 
   public init(_ name: String, symbol: String) {

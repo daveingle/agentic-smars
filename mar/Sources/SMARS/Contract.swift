@@ -8,9 +8,9 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Behavioral contract with preconditions and postconditions that define function or system requirements")
 public struct Contract: Codable, Sendable, CustomStringConvertible, Hashable {
-  @Generable
+  @Generable(description: "Contract clause specifying either a precondition or postcondition")
   public enum Clause: Codable, Sendable, CustomStringConvertible, Hashable {
     /// Precondition that must be true before execution
     case requires(String)
@@ -25,11 +25,11 @@ public struct Contract: Codable, Sendable, CustomStringConvertible, Hashable {
     }
   }
 
-  @Guide(description: "Unique identifier for this behavioral contract")
+  @Guide(description: "Unique contract identifier - typically descriptive name ending in '_contract'")
   public let contractID: String
-  @Guide(description: "The scope this contract applies to - typically a maplet or apply call identifier")
+  @Guide(description: "Scope identifier this contract applies to - must reference existing Maplet or Apply callID")
   public let scopeID: String
-  @Guide(description: "Array of requires and ensures clauses that define the contract")
+  @Guide(description: "List of contract clauses - mix of requires (preconditions) and ensures (postconditions)")
   public let clauses: [Clause]
 
   public var description: String {
@@ -37,7 +37,7 @@ public struct Contract: Codable, Sendable, CustomStringConvertible, Hashable {
       .map(\.description)
       .joined(separator: "\n  ")
     return """
-    ¤\(contractID)∶\(scopeID){
+    §\(contractID)∶\(scopeID){
       \(body)
     }
     """

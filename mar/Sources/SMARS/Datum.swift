@@ -2,13 +2,13 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Symbolic constant declaration with explicit type and value - provides named constants for system configuration")
 public struct Datum: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "The symbolic constant name (appears in ⟦brackets⟧ in SMARS syntax)")
+  @Guide(description: "Symbolic name enclosed in ⟦brackets⟧ - typically snake_case for constants")
   public let name: String
-  @Guide(description: "The declared type of the constant (e.g., STRING, INTEGER, FLOAT, BOOL)")
+  @Guide(description: "Type declaration - must be STRING, INTEGER, FLOAT, BOOL, or custom Kind name")
   public let type: String
-  @Guide(description: "The literal value of the constant as a string representation")
+  @Guide(description: "Literal value as string - will be parsed according to declared type")
   public let value: String
 
   // MARK: ‑ CustomStringConvertible (symbolic serialisation)

@@ -8,15 +8,15 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Function application instance that invokes a maplet with specific arguments and captures the result")
 public struct Apply: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "Unique identifier for this function application instance")
+  @Guide(description: "Unique call identifier - typically sequential like 'call1', 'call2' or descriptive")
   public let callID: String
-  @Guide(description: "Name of the maplet (function) being invoked")
+  @Guide(description: "Name of the maplet being invoked - must match an existing Maplet name")
   public let mapletID: String
-  @Guide(description: "Serialized argument expression - single value or tuple for multiple arguments")
+  @Guide(description: "Function arguments as string - single value, tuple (arg1,arg2), or empty () for no args")
   public let arguments: String
-  @Guide(description: "The result of the function application - literal value or reference to another atom")
+  @Guide(description: "Expected or actual result of the function call - can be literal or reference to Datum")
   public let result: String
 
   /// Designated initialiser for unary calls with simple literals.

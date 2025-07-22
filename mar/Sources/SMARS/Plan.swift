@@ -8,15 +8,15 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Ordered procedural plan with steps, confidence metrics, and uncertainty tracking")
 public struct Plan: Sendable, Hashable, CustomStringConvertible {
-  @Guide(description: "Unique identifier for this procedural plan")
+  @Guide(description: "Unique plan identifier - typically descriptive name in snake_case")
   public let planID: String
-  @Guide(description: "Ordered sequence of step identifiers to be executed")
+  @Guide(description: "Ordered list of step identifiers - each should reference a Maplet or Apply")
   public let steps: [String]
-  @Guide(description: "Optional confidence level for plan success (0.0 to 1.0)")
+  @Guide(description: "Confidence level between 0.0 and 1.0 representing expected success probability")
   public let confidence: Double?
-  @Guide(description: "Optional array of uncertainty sources that may affect plan execution")
+  @Guide(description: "List of uncertainty sources that could affect execution - helps with risk assessment")
   public let uncertaintySources: [String]
   
   public init(planID: String, 

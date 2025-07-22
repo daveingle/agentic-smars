@@ -8,13 +8,13 @@
 import Foundation
 import FoundationModels
 
-@Generable
+@Generable(description: "Conditional branching logic with multiple condition-target pairs and optional default case")
 public struct Branch: Sendable, Hashable, CustomStringConvertible {
-  @Generable
+  @Generable(description: "Single condition-target pair within a branch - represents one possible execution path")
   public struct Case: Sendable, Hashable, CustomStringConvertible {
-    @Guide(description: "The conditional expression to evaluate")
+    @Guide(description: "Boolean condition expression - can be simple predicate or complex logical expression")
     public let condition: String
-    @Guide(description: "The target identifier to execute when condition is true")
+    @Guide(description: "Target identifier to execute when condition is true - references Plan or Apply")
     public let target: String
     
     public init(condition: String, target: String) {
@@ -27,11 +27,11 @@ public struct Branch: Sendable, Hashable, CustomStringConvertible {
     }
   }
   
-  @Guide(description: "Unique identifier for this conditional branch")
+  @Guide(description: "Unique branch identifier - typically descriptive name ending in '_flow' or '_branch'")
   public let branchID: String
-  @Guide(description: "Array of condition-target pairs for branching logic")
+  @Guide(description: "List of condition-target cases - evaluated in order until first match")
   public let cases: [Case]
-  @Guide(description: "Optional default target when no conditions match")
+  @Guide(description: "Default target when no conditions match - should reference Plan or Apply identifier")
   public let elseTarget: String?
   
   public init(branchID: String, 
