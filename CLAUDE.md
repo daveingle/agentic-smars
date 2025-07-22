@@ -105,16 +105,17 @@ The project is implementing a six-phase evolution:
 
 ## Working with SMARS Files
 
+### Symbolic Specifications (`.smars.md` files)
 When editing SMARS specifications:
 
-### Foundation Requirements
+**Foundation Requirements:**
 - Validate syntax against `grammar/smars.ebnf.md`
 - Follow the SOP defined in `sop/smars-sop.md`
 - Ensure all symbols are properly declared before use
 - Maintain role-based scoping with `@role(...)` directives
 - Use symbolic forms consistently (prefer `maplet` over informal descriptions)
 
-### Multi-Agent Evolution Requirements
+**Multi-Agent Evolution Requirements:**
 - **CRITICAL**: Include artifact requirements to prevent symbolic hallucination
 - For new requests, use the evolved workflow with reality verification
 - Implement confidence metrics for uncertain operations
@@ -123,15 +124,57 @@ When editing SMARS specifications:
 - Consider memory persistence for agent state management
 - Include communication protocols for multi-agent scenarios
 
-## No Build System
+### Swift Implementation Integration
+When working on the Swift MAR implementation:
 
-This repository contains no traditional build, test, or lint commands. It's a multi-agent substrate focused on bridging symbolic reasoning with emergent agency rather than executable code. Validation occurs through:
+**Symbolic-to-Swift Mapping:**
+- SMARS `kind` declarations map to Swift structs with `@Generable`
+- SMARS `datum` values become Swift static constants
+- SMARS `maplet` functions map to Swift function types
+- SMARS `plan` steps become Swift async sequences
+- SMARS `contract` requirements become Swift preconditions/postconditions
+
+**Development Workflow:**
+1. Create symbolic specification in `spec/`
+2. Generate corresponding Swift types in `mar/Sources/SMARS/`
+3. Implement execution logic in `mar/Sources/Host/`
+4. Validate with concrete experiments in `experiments/`
+5. Document implementation in corresponding `.implementation.md` file
+
+## Build and Development Commands
+
+### SMARS Symbolic Specifications
+This repository's primary focus is symbolic reasoning specifications without traditional build commands. Validation occurs through:
 
 - **Symbolic consistency checking** against grammar and SOP
 - **Reality verification** to prevent symbolic hallucination
 - **Artifact auditing** to ensure concrete outputs
 - **Multi-agent coordination testing** for validation protocols
 - **External benchmark integration** for performance measurement
+
+### MAR Swift Implementation
+The `mar/` directory contains a Swift implementation of the Multi-Agent Runtime:
+
+```bash
+# Build the Swift MAR implementation
+cd mar && swift build
+
+# Run tests for the Swift implementation
+cd mar && swift test
+
+# Build for release
+cd mar && swift build -c release
+```
+
+**Key Swift Modules:**
+- **Host** - Runtime environment and orchestration
+- **SMARS** - Core SMARS language constructs and types
+- **Tools** - Development and validation utilities
+
+**Platform Requirements:**
+- macOS 26.0+ / iOS 26.0+
+- Swift 6.2+
+- FoundationModels framework integration
 
 ## Key Documents
 
@@ -156,6 +199,11 @@ This repository contains no traditional build, test, or lint commands. It's a mu
 ### External Integration
 - Multi-agent systems alignment with FIPA, AutoGen, CAMEL frameworks
 - Benchmarking integration with AgentBench, Arena, GAIA platforms
+
+### Swift Implementation Bridge
+- `mar/Sources/SMARS/` - Swift types corresponding to SMARS symbolic constructs
+- `mar/Sources/Host/` - Runtime execution environment for symbolic plans
+- `experiments/` - Swift validation experiments for symbolic specifications
 
 ## Request Management
 
