@@ -147,6 +147,7 @@ Unified interface enabling symbolic plans to traverse heterogeneous registry typ
 (ƒ kind_to_universal ∷ PromotedKindRecord → UniversalRegistryEntry)
 (ƒ agent_to_universal ∷ PromotedAgentRecord → UniversalRegistryEntry)
 (ƒ plan_to_universal ∷ PromotedPlanRecord → UniversalRegistryEntry)
+(ƒ promotion_step_to_universal ∷ PromotionStep → UniversalRegistryEntry)
 ```
 
 ### Universal Lookup Functions
@@ -160,6 +161,7 @@ Unified interface enabling symbolic plans to traverse heterogeneous registry typ
 ```
 (ƒ compute_promotion_strength ∷ PromotionStep → FLOAT)
 (ƒ compute_lineage_influence ∷ PromotionLineage → FLOAT)
+(ƒ compute_promotion_velocity ∷ [PromotionStep] → FLOAT)
 (ƒ analyze_promotion_effectiveness ∷ [PromotionStep] → PromotionEffectivenessMetrics)
 ```
 
@@ -174,6 +176,7 @@ Unified interface enabling symbolic plans to traverse heterogeneous registry typ
 ```
 (ƒ trace_promotion_lineage ∷ UUID → PromotionLineage)
 (ƒ find_promotion_influences ∷ UUID → [UUID])
+(ƒ find_upstream_promotions ∷ UUID → [PromotionStep])
 (ƒ analyze_promotion_influence_networks ∷ [UUID] → InfluenceNetwork)
 ```
 
@@ -243,14 +246,29 @@ Unified interface enabling symbolic plans to traverse heterogeneous registry typ
   steps:
     - apply_build_universal_view
     - extract_all_promotion_lineages
-    - build_influence_network_graph
+    - apply_build_influence_network
     - apply_compute_lineage_influence_to_each_lineage
-    - identify_promotion_clusters
+    - apply_identify_influence_hubs
     - generate_influence_insights
 )
 ```
 
 ## Registry Contracts
+
+### Generic Validation Assertions (Reusable)
+```
+(⊨ valid_registry_state_contract
+  requires: metadata_consistency(registry_metadata)
+  requires: promoted_cues_integrity(promoted_cues)
+  ensures: cross_registry_consistency(registry_state)
+)
+
+(⊨ registry_consistency_contract
+  requires: valid_registry_state_contract
+  ensures: no_orphaned_references(registry_entries)
+  ensures: promotion_lineage_integrity(lineage_paths)
+)
+```
 
 ### Universal Entry Consistency Contract
 ```
@@ -306,8 +324,8 @@ Unified interface enabling symbolic plans to traverse heterogeneous registry typ
 ### Registry View Context Integrity Contract
 ```
 (⊨ registry_view_context_integrity_contract
-  requires: plan_invocation_log_is_well_formed
-  ensures: cached_universal_view_consistency_with_last_plan
+  requires: valid_registry_state(metadata, promoted_cues)
+  ensures: universal_view_up_to_date(context.cached_universal_view, promoted_cues)
 )
 ```
 
@@ -374,7 +392,7 @@ Unified interface enabling symbolic plans to traverse heterogeneous registry typ
     - extract_all_promotion_steps
     - apply_compute_promotion_strength_to_all_steps
     - group_by_promotion_type
-    - identify_high_scoring_patterns
+    - apply_identify_high_scoring_patterns
     - suggest_scoring_refinements
 )
 ```
