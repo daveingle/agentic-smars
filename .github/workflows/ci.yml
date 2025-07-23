@@ -47,5 +47,6 @@ jobs:
       working-directory: smars-agent
     
     - name: Check SMARS specifications
-      run: cargo run --release -- check --spec spec/*.smars.md --format json
+      run: |
+        find . -name "*.smars.md" -type f | xargs cargo run --release -- check --format json --spec
       working-directory: smars-agent
