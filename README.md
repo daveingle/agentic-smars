@@ -26,7 +26,11 @@ This is a multi-agent substrate that enables:
 | `spec/patterns/`   | Reusable symbolic patterns for common agentic behaviors                   |
 | `spec/requests/`   | Request-driven specifications with full traceability                      |
 | `spec/smars-dev/`  | Meta-specifications where SMARS defines its own development roadmap       |
-| `impl/`           | `.implementation.md` files describing how to interpret symbolic specs      |
+| `impl/`           | Implementation layer - symbolic execution and runtime infrastructure      |
+| `impl/registry-*` | Persistent symbolic state, promotion ledger, and analytics pipeline      |
+| `impl/runtime-*`  | Deterministic execution environment and scoped agent state               |
+| `impl/agent-shell/` | Domain-agnostic execution shims for environment invocation             |
+| `smars-agent/`    | Cross-runtime harness - Rust orchestration + Swift LLM augmentation     |
 | `grammar/`        | EBNF grammar defining the SMARS language structure                        |
 | `sop/`            | Standard Operating Procedure for creating and using SMARS artifacts       |
 | `cues/`           | Advisory symbolic suggestions (non-binding guidance)                      |
@@ -110,7 +114,14 @@ This project follows the **Integrated Agentic Development Loop** with multi-phas
 - [`sop/smars-sop.md`](./sop/smars-sop.md) - Standard operating procedure
 - [`spec/smars-dev/roadmap.overview.smars.md`](./spec/smars-dev/roadmap.overview.smars.md) - Development roadmap
 
+### Runtime Implementation
+- [`impl/executor.smars.md`](./impl/executor.smars.md) - Symbolic execution engine with contract validation
+- [`impl/registry-polymorphic.smars.md`](./impl/registry-polymorphic.smars.md) - Promotion system with analytics pipeline
+- [`impl/scoring-analytics.smars.md`](./impl/scoring-analytics.smars.md) - Comprehensive scoring and influence analysis
+- [`smars-agent/README.md`](./smars-agent/README.md) - Cross-runtime harness documentation
+
 ### Evolution Documentation
+- [`journal/022-cross-runtime-agent-harness.md`](./journal/022-cross-runtime-agent-harness.md) - Latest milestone: Cross-runtime execution breakthrough
 - [`journal/001-agentic-loop.smars.md`](./journal/001-agentic-loop.smars.md) - Meta-level development cycle
 - [`fake-podcasts/001-From-Hallucination-to-Integration.md`](./fake-podcasts/001-From-Hallucination-to-Integration.md) - Journey from symbolic hallucination to reality-grounded agency
 - [`fake-podcasts/002.md`](./fake-podcasts/002.md) - Multi-agent architecture evolution and missing ingredients analysis
@@ -153,7 +164,33 @@ Successfully demonstrated self-evolving system capabilities by creating and imme
 #### External Framework Alignment
 Developed comprehensive integration roadmap with established multi-agent systems (FIPA, AutoGen, CAMEL) and benchmarking platforms (AgentBench, Arena, GAIA).
 
-These milestones demonstrate SMARS's evolution from symbolic planning tool to comprehensive multi-agent development substrate.
+#### Cross-Runtime Agent Harness (Latest)
+**Breakthrough Achievement**: Successfully implemented a cross-runtime agent harness that operationalizes abstract planning logic described in SMARS `.smars.md` files through deterministic Rust execution and Swift LLM augmentation.
+
+**Key Components**:
+- **`impl/registry-*`** - Persistent symbolic state, promotion ledger with comprehensive analytics
+- **`impl/runtime-*`** - Deterministic execution environment with agent state management
+- **`smars-agent/`** - Cross-runtime harness combining Rust CLI orchestration with Swift FoundationModels
+- **`impl/agent-shell/`** - Domain-agnostic execution shims for environment invocation
+
+**Architectural Integration**: The new runtime layers sit on top of the `impl/` foundation, providing concrete operationalization rather than simulation of symbolic plans. This mirrors the architectural intention of bridging formal reasoning with emergent execution capabilities.
+
+These milestones demonstrate SMARS's evolution from symbolic planning tool to comprehensive multi-agent development substrate with concrete runtime execution.
+
+---
+
+## Architecture Layers
+
+The system now operates across multiple architectural layers:
+
+| Layer | Role | Technology |
+|-------|------|------------|
+| `impl/registry-*` | Persistent symbolic state, promotion ledger | Symbolic SMARS specifications |
+| `impl/runtime-*` | Deterministic execution environment, agent state | Symbolic SMARS specifications |
+| `smars-agent/` | Cross-runtime harness, orchestration + LLM augmentation | Rust CLI + Swift FoundationModels |
+| `impl/agent-shell/` | Domain-agnostic execution shims for environment invocation | Symbolic SMARS specifications |
+
+This layered approach enables **round-trip validation** between plan specifications and execution results, with **unified journaling** of cue emissions and plan outcomes for machine-readable analysis.
 
 ---
 
@@ -191,7 +228,17 @@ These milestones demonstrate SMARS's evolution from symbolic planning tool to co
 - Standard protocol compliance
 - Performance measurement systems
 
-**Current Focus**: Completing grammar formalization and implementing Phase 1 runtime contract enforcement to prevent symbolic hallucination recurrence.
+**Current Focus**: The runtime harness is complete with comprehensive execution validation. 
+
+### Suggested Next Steps
+
+To close the feedback loop and complete the agentic substrate:
+
+- **Round-trip validation** between plan specifications and execution results
+- **Unified journaling** of cue emissions + plan outcomes in machine-readable format  
+- **Agent runtime exposure** via socket, RPC, or CLI subcommand server for chained invocation and testing
+
+This will enable complete validation harnesses that verify symbolic specifications against concrete execution outcomes.
 
 ---
 

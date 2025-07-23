@@ -364,7 +364,139 @@ Neither folder is part of the active runtime model but provides context and cont
 
 ---
 
-## 7. Archival
+## 7. Agent Introspection and Discovery Flow
+
+### 7.1 Agent Capability Declaration
+
+All SMARS agents must declare their capabilities using the standardized agent capability specification system. This enables multi-agent orchestration and polymorphic delegation.
+
+```smars
+@role(agent)
+
+(kind agent_capabilities ∷ {
+  capabilities: [Capability],
+  runtime_info: RuntimeInfo,
+  host_address: STRING,
+  version: STRING,
+  status: AgentStatus
+})
+
+(∷ RuntimeInfo {
+  runtime_type: STRING,
+  platform: STRING,
+  memory_usage_mb: INT,
+  uptime_seconds: INT
+})
+
+(∷ AgentStatus {
+  ready: BOOLEAN,
+  busy: BOOLEAN,
+  error_count: INT,
+  last_error: STRING
+})
+```
+
+### 7.2 Standardized Capability Constants
+
+Agents must declare capabilities using these standardized constants:
+
+- `shell_execution` - Agent can execute system shell commands
+- `llm_completion` - Agent has access to language model capabilities
+- `plan_execution` - Agent can execute SMARS symbolic plans
+- `trace_logging` - Agent provides execution trace logging
+- `rpc_server` - Agent exposes RPC interface for remote execution
+- `decision_making` - Agent can make autonomous decisions
+- `learning` - Agent can adapt behavior based on experience
+- `communication` - Agent can communicate with other agents
+- `memory_management` - Agent maintains persistent state
+- `validation_requesting` - Agent can request validation from other agents
+
+### 7.3 Agent Discovery Protocol
+
+The agent discovery protocol enables distributed multi-agent coordination:
+
+```smars
+@role(orchestrator)
+
+(ƒ discover_agents ∷ [AgentHost] → [agent_info])
+(ƒ describe_agent ∷ AgentHost → agent_capabilities)
+(ƒ filter_capable_agents ∷ [agent_info] × [Capability] → [agent_info])
+(ƒ delegate_plan_to_agent ∷ agent_info × PlanName → ExecutionResult)
+
+(§ orchestrate_multi_agent
+  steps:
+    - apply discover_agents ▸ agent_host_list
+    - apply filter_capable_agents ▸ discovered_agents ▸ required_capabilities  
+    - apply delegate_plan_to_agent ▸ selected_agent ▸ target_plan
+)
+```
+
+### 7.4 Agent RPC Interface Requirements
+
+All SMARS agents with `rpc_server` capability must support these RPC methods:
+
+**Health Check**
+- Request: `HealthRequest { request_id: STRING }`
+- Response: `HealthResponse { status: STRING, agent_ready: BOOL, foundation_models_available: BOOL }`
+
+**Agent Description**
+- Request: `DescribeAgentRequest { request_id: STRING }`
+- Response: `DescribeAgentResponse { agent_capabilities: AgentCapabilities }`
+
+**Plan Execution**
+- Request: `ExecutionRequest { spec_content: STRING, plan_name: STRING, foundation_models: BOOL }`
+- Response: `ExecutionResponse { success: BOOL, execution_result: ExecutionResult, trace_log_path: STRING }`
+
+### 7.5 Multi-Agent Orchestration Contracts
+
+```smars
+(⊨ agent_must_declare_capabilities
+  requires: capability_set_present ∧ capabilities.length ≥ 1
+  ensures: agent_is_discoverable ∧ orchestration_ready
+)
+
+(⊨ agent_health_check_responsive
+  requires: agent_status.ready = true
+  ensures: agent_can_execute_plans
+)
+
+(⊨ capability_validation_contract
+  requires: declared_capabilities ⊆ supported_capabilities
+  ensures: no_capability_mismatch_errors
+)
+```
+
+### 7.6 Agent Discovery Implementation Process
+
+1. **Agent Registration**: Each agent declares capabilities in `impl/registry/agents.smars.md`
+2. **Discovery Execution**: Use discovery client to probe agent hosts for capabilities
+3. **Capability Filtering**: Filter discovered agents by required capabilities
+4. **Plan Delegation**: Delegate specific plans to capable agents
+5. **Result Aggregation**: Collect and validate execution results from distributed agents
+6. **Trace Consolidation**: Unify execution traces across multi-agent workflows
+
+### 7.7 Discovery Tool Usage
+
+Use the provided discovery tool to explore agent networks:
+
+```bash
+# Discover agents on known hosts
+cargo run --example discover
+
+# Test agent capabilities and health
+smars-agent server --port 8080 &
+cargo run --example discover
+```
+
+The discovery tool provides:
+- Agent capability enumeration
+- Health status monitoring
+- Capability-based filtering
+- Multi-agent orchestration readiness assessment
+
+---
+
+## 8. Archival
 
 Retire deprecated, unstable, or exploratory designs to the `archive/` directory. Do not delete symbolic artifacts unless they are invalid; archive instead.
 
