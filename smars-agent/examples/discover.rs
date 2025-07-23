@@ -1,6 +1,5 @@
 use anyhow::Result;
 use smars_agent::server::{AgentDiscoveryClient, AgentHost, SmarsAgentClient};
-use log::info;
 
 #[tokio::main]
 async fn main() -> Result<()> {

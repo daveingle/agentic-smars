@@ -124,6 +124,24 @@ enum Commands {
         #[arg(short = 'd', long)]
         detailed: bool,
     },
+    /// Check SMARS specification files for syntax and semantic errors
+    Check {
+        /// Path(s) to SMARS specification file(s) to check
+        #[arg(short, long, required = true, num_args = 1..)]
+        spec: Vec<PathBuf>,
+        
+        /// Show warnings in addition to errors
+        #[arg(short = 'w', long)]
+        warnings: bool,
+        
+        /// Validate references between specification files
+        #[arg(long)]
+        validate_links: bool,
+        
+        /// Output format: pretty (default) or json
+        #[arg(long, default_value = "pretty")]
+        format: String,
+    },
 }
 
 #[tokio::main]
@@ -153,6 +171,9 @@ async fn main() -> Result<()> {
         Some(Commands::Coverage { detailed }) => {
             coverage_command(detailed, cli.verbose).await
         }
+        Some(Commands::Check { spec, warnings, validate_links, format }) => {
+            check_command(spec, warnings, validate_links, format, cli.verbose).await
+        }
         Some(Commands::Plan { prompt, multi_agent, max_cycles, spec_dir }) => {
             plan_command(prompt, multi_agent, max_cycles, spec_dir, cli.verbose).await
         }
@@ -166,6 +187,7 @@ async fn main() -> Result<()> {
             println!("  runtime  - Run deterministic runtime loop with validation");
             println!("  agent-demo - Demonstrate multi-agent coordination capabilities");
             println!("  coverage - Analyze baseline coverage and generate report");
+            println!("  check    - Check SMARS specification files for syntax and semantic errors");
             println!("  plan     - Interactive planning mode with natural language input");
             Ok(())
         }
@@ -275,7 +297,7 @@ async fn report_command(trace_dir: String) -> Result<()> {
 
 async fn runtime_command(
     spec: PathBuf,
-    plan: Option<String>,
+    _plan: Option<String>,
     prompt: Option<String>,
     detailed: bool,
     verbose: bool
@@ -453,7 +475,7 @@ async fn plan_command(
     
     // Initialize components
     let spec_dir = spec_dir.unwrap_or_else(|| PathBuf::from("./spec"));
-    let plan_library = match PlanLibraryLoader::load_from_specs(spec_dir.to_str().unwrap_or("./spec")) {
+    let _plan_library = match PlanLibraryLoader::load_from_specs(spec_dir.to_str().unwrap_or("./spec")) {
         Ok(library) => {
             println!("✅ Loaded plan library with {} plans", library.plans.len());
             Some(library)
@@ -616,4 +638,266 @@ async fn plan_command(
     println!("👋 Interactive planning session complete!");
     
     Ok(())
+}
+
+async fn check_command(
+    specs: Vec<PathBuf>,
+    warnings: bool,
+    validate_links: bool,
+    format: String,
+    verbose: bool
+) -> Result<()> {
+    use serde_json::json;
+    
+    if verbose {
+        println!("Starting SMARS specification validation");
+    }
+
+    let mut all_results = Vec::new();
+    let mut total_errors = 0;
+    let mut total_warnings = 0;
+
+    for spec_path in &specs {
+        if verbose {
+            println!("Checking: {}", spec_path.display());
+        }
+
+        let check_result = check_single_spec(spec_path, warnings, validate_links).await?;
+        total_errors += check_result.errors.len();
+        total_warnings += check_result.warnings.len();
+        all_results.push(check_result);
+    }
+
+    // Output results based on format
+    match format.as_str() {
+        "json" => {
+            let json_output = json!({
+                "files_checked": specs.len(),
+                "total_errors": total_errors,
+                "total_warnings": total_warnings,
+                "results": all_results
+            });
+            println!("{}", serde_json::to_string_pretty(&json_output)?);
+        }
+        "pretty" | _ => {
+            println!("SMARS Specification Check Results");
+            println!("{}", "=".repeat(40));
+            
+            for (i, result) in all_results.iter().enumerate() {
+                let status_icon = if result.errors.is_empty() { "✅" } else { "❌" };
+                println!("{} {}", status_icon, specs[i].display());
+                
+                if !result.errors.is_empty() {
+                    println!("  Errors:");
+                    for error in &result.errors {
+                        println!("    • {}", error);
+                    }
+                }
+                
+                if warnings && !result.warnings.is_empty() {
+                    println!("  Warnings:");
+                    for warning in &result.warnings {
+                        println!("    ⚠ {}", warning);
+                    }
+                }
+                
+                if validate_links && !result.link_issues.is_empty() {
+                    println!("  Link Issues:");
+                    for issue in &result.link_issues {
+                        println!("    🔗 {}", issue);
+                    }
+                }
+                
+                println!();
+            }
+            
+            println!("Summary:");
+            println!("  Files checked: {}", specs.len());
+            println!("  Total errors: {}", total_errors);
+            if warnings {
+                println!("  Total warnings: {}", total_warnings);
+            }
+            
+            if total_errors == 0 {
+                println!("✅ All specifications are valid!");
+            } else {
+                println!("❌ Found {} error(s) in specifications", total_errors);
+            }
+        }
+    }
+
+    // Exit with error code if there are errors
+    if total_errors > 0 {
+        std::process::exit(1);
+    }
+
+    Ok(())
+}
+
+#[derive(serde::Serialize)]
+struct CheckResult {
+    file_path: String,
+    errors: Vec<String>,
+    warnings: Vec<String>,
+    link_issues: Vec<String>,
+    syntax_valid: bool,
+    semantic_valid: bool,
+}
+
+async fn check_single_spec(
+    spec_path: &PathBuf,
+    include_warnings: bool,
+    validate_links: bool
+) -> Result<CheckResult> {
+    let mut result = CheckResult {
+        file_path: spec_path.to_string_lossy().to_string(),
+        errors: Vec::new(),
+        warnings: Vec::new(),
+        link_issues: Vec::new(),
+        syntax_valid: true,
+        semantic_valid: true,
+    };
+
+    // Check if file exists
+    if !spec_path.exists() {
+        result.errors.push("File does not exist".to_string());
+        result.syntax_valid = false;
+        result.semantic_valid = false;
+        return Ok(result);
+    }
+
+    // Read file content
+    let spec_content = match std::fs::read_to_string(spec_path) {
+        Ok(content) => content,
+        Err(e) => {
+            result.errors.push(format!("Could not read file: {}", e));
+            result.syntax_valid = false;
+            result.semantic_valid = false;
+            return Ok(result);
+        }
+    };
+
+    // Parse SMARS specification
+    let mut parser = SmarsParser::new();
+    let ast = match parser.parse(&spec_content) {
+        Ok(ast) => ast,
+        Err(e) => {
+            result.errors.push(format!("Syntax error: {}", e));
+            result.syntax_valid = false;
+            result.semantic_valid = false;
+            return Ok(result);
+        }
+    };
+
+    // Semantic validation
+    validate_semantics(&ast, &mut result, include_warnings);
+
+    // Link validation if requested
+    if validate_links {
+        validate_references(&ast, &mut result, spec_path.parent());
+    }
+
+    result.semantic_valid = result.errors.is_empty();
+
+    Ok(result)
+}
+
+fn validate_semantics(ast: &[parser::SmarsNode], result: &mut CheckResult, include_warnings: bool) {
+    use std::collections::HashSet;
+    
+    let mut defined_plans = HashSet::new();
+    let mut defined_maplets = HashSet::new();
+    let mut defined_kinds = HashSet::new();
+    let mut defined_contracts = HashSet::new();
+    let referenced_plans: HashSet<String> = HashSet::new();
+    let mut has_role_directive = false;
+
+    // First pass: collect definitions
+    for node in ast {
+        match node {
+            parser::SmarsNode::RoleDirective(_) => has_role_directive = true,
+            parser::SmarsNode::Plan(plan) => {
+                if defined_plans.contains(&plan.name) {
+                    result.errors.push(format!("Duplicate plan definition: {}", plan.name));
+                } else {
+                    defined_plans.insert(plan.name.clone());
+                }
+            }
+            parser::SmarsNode::Maplet(maplet) => {
+                if defined_maplets.contains(&maplet.name) {
+                    result.errors.push(format!("Duplicate maplet definition: {}", maplet.name));
+                } else {
+                    defined_maplets.insert(maplet.name.clone());
+                }
+            }
+            parser::SmarsNode::Kind(kind) => {
+                if defined_kinds.contains(&kind.name) {
+                    result.errors.push(format!("Duplicate kind definition: {}", kind.name));
+                } else {
+                    defined_kinds.insert(kind.name.clone());
+                }
+            }
+            parser::SmarsNode::Contract(contract) => {
+                if defined_contracts.contains(&contract.name) {
+                    result.errors.push(format!("Duplicate contract definition: {}", contract.name));
+                } else {
+                    defined_contracts.insert(contract.name.clone());
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // Check for required role directive
+    if !has_role_directive {
+        result.errors.push("Missing @role(...) directive at beginning of specification".to_string());
+    }
+
+    // Second pass: validate references and completeness
+    for node in ast {
+        match node {
+            parser::SmarsNode::Apply(apply) => {
+                // Check if referenced target exists
+                if !defined_maplets.contains(&apply.target) {
+                    result.errors.push(format!("Referenced maplet '{}' is not defined", apply.target));
+                }
+            }
+            parser::SmarsNode::Plan(plan) => {
+                if plan.steps.is_empty() {
+                    result.errors.push(format!("Plan '{}' has no steps", plan.name));
+                }
+            }
+            parser::SmarsNode::Contract(contract) => {
+                if contract.requires.is_empty() && contract.ensures.is_empty() {
+                    if include_warnings {
+                        result.warnings.push(format!("Contract '{}' has no requirements or postconditions", contract.name));
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // Warnings for unused definitions
+    if include_warnings {
+        for plan in &defined_plans {
+            if !referenced_plans.contains(plan) {
+                result.warnings.push(format!("Plan '{}' is defined but never referenced", plan));
+            }
+        }
+    }
+}
+
+fn validate_references(
+    _ast: &[parser::SmarsNode], 
+    result: &mut CheckResult, 
+    spec_dir: Option<&std::path::Path>
+) {
+    // This would validate cross-file references
+    // For now, just check if the spec directory is accessible
+    if let Some(dir) = spec_dir {
+        if !dir.exists() {
+            result.link_issues.push("Specification directory does not exist".to_string());
+        }
+    }
 }

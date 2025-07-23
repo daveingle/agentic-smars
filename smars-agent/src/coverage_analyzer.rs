@@ -99,7 +99,9 @@ pub struct BaselineRequirements {
     pub minimum_specification_coverage: f64,
     pub minimum_test_coverage: f64,
     pub minimum_integration_coverage: f64,
+    #[allow(dead_code)] // planned for feature completeness tracking in v0.2
     pub required_core_features: HashSet<String>,
+    #[allow(dead_code)] // planned for capability validation in v0.2
     pub required_agent_capabilities: HashSet<String>,
 }
 
@@ -346,7 +348,7 @@ impl CoverageAnalyzer {
     fn identify_coverage_gaps(
         &self,
         spec_coverage: &SpecificationCoverage,
-        impl_coverage: &ImplementationCoverage,
+        _impl_coverage: &ImplementationCoverage,
         test_coverage: &TestCoverage,
         integration_coverage: &IntegrationCoverage,
     ) -> Vec<CoverageGap> {
@@ -398,7 +400,7 @@ impl CoverageAnalyzer {
         }
 
         // Check for specific feature gaps
-        for maplet_coverage in spec_coverage.element_breakdown.get("maplet_definitions") {
+        if let Some(maplet_coverage) = spec_coverage.element_breakdown.get("maplet_definitions") {
             if maplet_coverage.coverage_score < 0.75 {
                 gaps.push(CoverageGap {
                     gap_type: "Maplet Implementation".to_string(),
@@ -413,7 +415,7 @@ impl CoverageAnalyzer {
         gaps
     }
 
-    fn generate_recommendations(&self, gaps: &[CoverageGap]) -> Vec<Recommendation> {
+    fn generate_recommendations(&self, _gaps: &[CoverageGap]) -> Vec<Recommendation> {
         let mut recommendations = Vec::new();
 
         // High priority recommendations
