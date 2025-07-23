@@ -6,3 +6,7 @@ pub mod server;
 pub mod runtime_loop;
 pub mod agent_demo;
 pub mod coverage_analyzer;
+pub mod plan_library;
+pub mod planning_engine;
+pub mod user_interface;
+pub mod agent_coordinator;

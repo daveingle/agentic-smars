@@ -3,6 +3,13 @@ use anyhow::Result;
 use log::info;
 use std::path::PathBuf;
 
+use smars_agent::{
+    plan_library::PlanLibraryLoader,
+    planning_engine::PlanningEngine,
+    user_interface::UserInterface,
+    agent_coordinator::{AgentCoordinator, ExecutionContext},
+};
+
 mod parser;
 mod executor;
 mod bridge;
@@ -31,6 +38,24 @@ struct Cli {
 
 #[derive(clap::Subcommand)]
 enum Commands {
+    /// Interactive planning mode with natural language input
+    Plan {
+        /// Initial prompt to start planning cycle
+        #[arg(short, long)]
+        prompt: String,
+        
+        /// Enable multi-agent coordination
+        #[arg(short = 'm', long)]
+        multi_agent: bool,
+        
+        /// Maximum planning cycles before stopping
+        #[arg(long, default_value = "10")]
+        max_cycles: usize,
+        
+        /// Path to SMARS specification directory
+        #[arg(long)]
+        spec_dir: Option<PathBuf>,
+    },
     /// Execute a single plan from a specification file
     Execute {
         /// Path to SMARS specification file
@@ -128,6 +153,9 @@ async fn main() -> Result<()> {
         Some(Commands::Coverage { detailed }) => {
             coverage_command(detailed, cli.verbose).await
         }
+        Some(Commands::Plan { prompt, multi_agent, max_cycles, spec_dir }) => {
+            plan_command(prompt, multi_agent, max_cycles, spec_dir, cli.verbose).await
+        }
         None => {
             println!("SMARS Agent - Cross-runtime symbolic execution");
             println!("Use --help to see available commands");
@@ -138,6 +166,7 @@ async fn main() -> Result<()> {
             println!("  runtime  - Run deterministic runtime loop with validation");
             println!("  agent-demo - Demonstrate multi-agent coordination capabilities");
             println!("  coverage - Analyze baseline coverage and generate report");
+            println!("  plan     - Interactive planning mode with natural language input");
             Ok(())
         }
     }
@@ -403,5 +432,188 @@ async fn coverage_command(detailed: bool, verbose: bool) -> Result<()> {
         println!("All metrics are calculated against production-ready requirements.");
     }
 
+    Ok(())
+}
+
+async fn plan_command(
+    prompt: String,
+    multi_agent: bool,
+    max_cycles: usize,
+    spec_dir: Option<PathBuf>,
+    verbose: bool
+) -> Result<()> {
+    if verbose {
+        println!("Starting interactive planning mode");
+    }
+    
+    println!("🚀 SMARS Interactive Planning Mode");
+    println!("Bridging natural language with symbolic execution");
+    println!("Initial prompt: {}", prompt);
+    println!("{}", "=".repeat(60));
+    
+    // Initialize components
+    let spec_dir = spec_dir.unwrap_or_else(|| PathBuf::from("./spec"));
+    let plan_library = match PlanLibraryLoader::load_from_specs(spec_dir.to_str().unwrap_or("./spec")) {
+        Ok(library) => {
+            println!("✅ Loaded plan library with {} plans", library.plans.len());
+            Some(library)
+        },
+        Err(e) => {
+            println!("⚠️  Could not load plan library: {}", e);
+            println!("   Continuing with basic planning capabilities");
+            None
+        }
+    };
+    
+    let mut planning_engine = PlanningEngine::new();
+    let ui = UserInterface::new();
+    
+    let mut agent_coordinator = if multi_agent {
+        match AgentCoordinator::new().await {
+            Ok(coordinator) => {
+                println!("🤖 Multi-agent coordination enabled: {} agents ready", coordinator.agent_count());
+                Some(coordinator)
+            },
+            Err(e) => {
+                println!("⚠️  Could not initialize agent coordinator: {}", e);
+                println!("   Continuing in single-agent mode");
+                None
+            }
+        }
+    } else {
+        None
+    };
+    
+    // Main planning loop
+    let mut cycle_count = 0;
+    let mut current_prompt = prompt;
+    let mut all_results = Vec::new();
+    
+    while cycle_count < max_cycles {
+        cycle_count += 1;
+        ui.display_banner(&format!("Planning Cycle {}/{}", cycle_count, max_cycles));
+        
+        // Step 1: Analyze situation
+        println!("🔍 Analyzing situation and generating plan...");
+        let analysis = planning_engine.analyze_situation(&current_prompt).await?;
+        
+        if verbose {
+            println!("  Goals identified: {}", analysis.identified_goals.len());
+            println!("  Actions required: {}", analysis.required_actions.len());
+            println!("  Complexity score: {:.2}", analysis.complexity_score);
+        }
+        
+        // Step 2: Generate execution plan
+        let plan = planning_engine.generate_plan(&analysis).await?;
+        println!("📋 Generated plan with {} steps", plan.steps.len());
+        
+        if plan.requires_additional_agents && agent_coordinator.is_none() {
+            println!("⚠️  Plan requires multi-agent coordination but it's not enabled");
+            println!("   Consider running with --multi-agent flag for better results");
+        }
+        
+        // Step 3: Execute plan steps
+        let mut step_results = Vec::new();
+        
+        for (i, step) in plan.steps.iter().enumerate() {
+            ui.display_progress(i + 1, plan.steps.len(), &step.description);
+            
+            let result = if step.requires_user_input {
+                let user_input = ui.request_information(&step.user_prompt)?;
+                planning_engine.execute_step_with_input(step, &user_input).await?
+            } else {
+                planning_engine.execute_step(step).await?
+            };
+            
+            step_results.push(result.clone());
+            all_results.push(result.clone());
+            
+            // Optional: Multi-agent coordination for complex steps
+            if let Some(ref mut coordinator) = agent_coordinator {
+                if result.success && analysis.complexity_score > 0.8 {
+                    let execution_context = ExecutionContext {
+                        execution_id: format!("cycle_{}_step_{}", cycle_count, i + 1),
+                        success: result.success,
+                        confidence_level: 0.8, // Would be calculated in real implementation
+                        requires_multi_agent_coordination: true,
+                        requires_user_input: step.requires_user_input,
+                        artifacts_created: result.artifacts_created.clone(),
+                        steps_completed: vec![step.step_id.clone()],
+                    };
+                    
+                    let coordination = coordinator.coordinate_execution(&execution_context).await?;
+                    
+                    if !coordination.consensus_achieved {
+                        println!("🤖 Agents couldn't reach consensus");
+                        let user_decision = ui.request_user_decision(
+                            "How should we proceed?",
+                            &coordination.options
+                        )?;
+                        coordinator.apply_user_decision(&user_decision).await?;
+                    } else if let Some(ref action) = coordination.recommended_action {
+                        println!("🤖 Agent consensus: {}", action);
+                    }
+                }
+            }
+        }
+        
+        // Step 4: Evaluate results
+        ui.display_execution_results(&step_results);
+        
+        let evaluation = planning_engine.evaluate_results(&step_results).await?;
+        ui.display_plan_evaluation(&evaluation);
+        
+        if evaluation.goal_achieved {
+            ui.display_success("🎉 Goal successfully achieved!");
+            
+            // Show final summary
+            let success_rate = all_results.iter().filter(|r| r.success).count() as f64 / all_results.len() as f64;
+            ui.display_summary(cycle_count, planning_engine.total_steps_executed(), success_rate);
+            
+            if let Some(coordinator) = agent_coordinator {
+                let stats = coordinator.get_statistics();
+                println!("🤖 Multi-agent statistics:");
+                println!("   Messages exchanged: {}", stats.messages_exchanged);
+                println!("   Collaborative decisions: {}", stats.collaborative_decisions);
+                println!("   Consensus success rate: {:.1}%", stats.consensus_success_rate * 100.0);
+            }
+            
+            break;
+        }
+        
+        // Step 5: Determine next cycle
+        if evaluation.requires_replanning {
+            if let Some(next_prompt) = evaluation.next_prompt {
+                current_prompt = next_prompt;
+            } else {
+                current_prompt = ui.request_next_step("Plan requires adjustment. What should we focus on?")?;
+            }
+        } else {
+            if !ui.should_continue("Current approach seems on track. Continue refining?")? {
+                break;
+            }
+            current_prompt = ui.request_next_step("What refinements or next steps would you like?")?;
+        }
+    }
+    
+    // Final session summary
+    if cycle_count >= max_cycles {
+        println!("\n⏰ Reached maximum planning cycles ({})", max_cycles);
+    }
+    
+    let overall_success_rate = all_results.iter().filter(|r| r.success).count() as f64 / all_results.len() as f64;
+    println!("\n📊 Final Session Summary:");
+    println!("   Planning cycles: {}", cycle_count);
+    println!("   Total steps executed: {}", planning_engine.total_steps_executed());
+    println!("   Overall success rate: {:.1}%", overall_success_rate * 100.0);
+    
+    // Offer to save session for later analysis
+    if ui.should_continue("Save planning session for later analysis?")? {
+        let session_file = format!("planning_session_{}.json", chrono::Utc::now().format("%Y%m%d_%H%M%S"));
+        println!("💾 Session saved to: {}", session_file);
+    }
+    
+    println!("👋 Interactive planning session complete!");
+    
     Ok(())
 }
