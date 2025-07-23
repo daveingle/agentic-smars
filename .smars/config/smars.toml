@@ -1,0 +1,23 @@
+[smars]
+version = "0.1.0"
+substrate_mode = true
+
+[execution]
+deterministic = true
+feedback_enforcement = true
+reality_grounding = true
+confidence_bounds = [0.1, 0.95]
+
+[validation]
+contract_validation = true
+artifact_validation = true
+reality_validation = true
+
+[agents]
+self_auditing = true
+reality_simulation = true
+temporal_reasoning = true
+
+[templates]
+auto_scaffold = true
+plan_templates = ["feature", "bugfix", "refactor", "deployment"]
