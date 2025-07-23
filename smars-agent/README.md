@@ -48,6 +48,9 @@ cargo build --release
 
 # Enable verbose logging
 ./target/release/smars-agent --spec test-plans/example-plan.smars.md --plan complex_workflow_plan --verbose
+
+# Run deterministic runtime loop with an initial prompt
+./target/release/smars-agent runtime --spec test-plans/example-plan.smars.md --prompt "Initialize analysis"
 ```
 
 ### With FoundationModels Integration

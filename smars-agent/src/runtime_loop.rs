@@ -8,6 +8,7 @@ pub struct PlanExecution {
     pub execution_id: String,
     pub plan_id: String,
     pub deterministic_seed: u64,
+    pub initial_prompt: Option<String>,
     pub execution_state: ExecutionState,
     pub feedback_collection: FeedbackCollection,
     pub validation_results: ValidationResults,
@@ -139,7 +140,7 @@ impl DeterministicRuntimeLoop {
         }
     }
 
-    pub fn execute_plan(&mut self, plan_spec: &str) -> Result<PlanExecution, ExecutionError> {
+    pub fn execute_plan(&mut self, plan_spec: &str, initial_prompt: Option<&str>) -> Result<PlanExecution, ExecutionError> {
         let execution_id = Uuid::new_v4().to_string();
         let deterministic_seed = self.generate_deterministic_seed();
         
@@ -147,6 +148,7 @@ impl DeterministicRuntimeLoop {
             execution_id: execution_id.clone(),
             plan_id: self.extract_plan_id(plan_spec)?,
             deterministic_seed,
+            initial_prompt: initial_prompt.map(|s| s.to_string()),
             execution_state: ExecutionState::Running,
             feedback_collection: FeedbackCollection {
                 execution_feedback: Vec::new(),
@@ -369,7 +371,7 @@ mod tests {
             )
         "#;
 
-        let result = runtime.execute_plan(plan_spec);
+        let result = runtime.execute_plan(plan_spec, None);
         assert!(result.is_ok());
         
         let execution = result.unwrap();
@@ -386,6 +388,7 @@ mod tests {
             execution_id: "test".to_string(),
             plan_id: "test_plan".to_string(),
             deterministic_seed: 12345,
+            initial_prompt: None,
             execution_state: ExecutionState::Running,
             feedback_collection: FeedbackCollection {
                 execution_feedback: Vec::new(),

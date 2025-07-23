@@ -78,6 +78,10 @@ enum Commands {
         /// Plan name to execute
         #[arg(short, long)]
         plan: Option<String>,
+
+        /// Optional initial prompt for execution
+        #[arg(short = 'p', long)]
+        prompt: Option<String>,
         
         /// Show detailed validation results
         #[arg(short = 'd', long)]
@@ -115,8 +119,8 @@ async fn main() -> Result<()> {
         Some(Commands::Report { trace_dir }) => {
             report_command(trace_dir).await
         }
-        Some(Commands::Runtime { spec, plan, detailed }) => {
-            runtime_command(spec, plan, detailed, cli.verbose).await
+        Some(Commands::Runtime { spec, plan, prompt, detailed }) => {
+            runtime_command(spec, plan, prompt, detailed, cli.verbose).await
         }
         Some(Commands::AgentDemo { comprehensive }) => {
             agent_demo_command(comprehensive, cli.verbose).await
@@ -241,8 +245,9 @@ async fn report_command(trace_dir: String) -> Result<()> {
 }
 
 async fn runtime_command(
-    spec: PathBuf, 
-    plan: Option<String>, 
+    spec: PathBuf,
+    plan: Option<String>,
+    prompt: Option<String>,
     detailed: bool,
     verbose: bool
 ) -> Result<()> {
@@ -255,10 +260,13 @@ async fn runtime_command(
     let mut runtime = DeterministicRuntimeLoop::new();
     
     // Execute plan with deterministic runtime loop
-    match runtime.execute_plan(&spec_content) {
+    match runtime.execute_plan(&spec_content, prompt.as_deref()) {
         Ok(execution) => {
             println!("Deterministic Runtime Execution Results");
             println!("=====================================");
+            if let Some(p) = &execution.initial_prompt {
+                println!("Initial Prompt: {}", p);
+            }
             println!("Execution ID: {}", execution.execution_id);
             println!("Plan ID: {}", execution.plan_id);
             println!("Deterministic Seed: {}", execution.deterministic_seed);
