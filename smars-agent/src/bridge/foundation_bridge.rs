@@ -31,6 +31,7 @@ struct LLMResponse {
     success: bool,
     result: Option<Value>,
     error: Option<String>,
+    #[allow(dead_code)] // planned for LLM reasoning transparency in v0.2
     reasoning: Option<String>,
 }
 
@@ -41,6 +42,7 @@ impl FoundationBridge {
         }
     }
     
+    #[allow(dead_code)] // planned for custom LLM binary integration in v0.3
     pub fn with_binary_path(path: &str) -> Self {
         Self {
             swift_binary_path: path.to_string(),
@@ -114,6 +116,7 @@ impl FoundationBridge {
         }
     }
     
+    #[allow(dead_code)] // planned for cue completion workflow in v0.2
     pub async fn complete_cue(
         &self,
         cue_context: &Value,
@@ -187,6 +190,7 @@ impl FoundationBridge {
         Ok(response)
     }
     
+    #[allow(dead_code)] // planned for health monitoring in v0.2
     pub async fn test_connection(&self) -> Result<bool> {
         info!("Testing connection to Swift subprocess");
         

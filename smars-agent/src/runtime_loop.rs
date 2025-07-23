@@ -127,6 +127,7 @@ pub struct DeterministicRuntimeLoop {
     execution_registry: HashMap<String, PlanExecution>,
     feedback_enforcer: FeedbackEnforcer,
     reality_validator: RealityValidator,
+    #[allow(dead_code)] // planned for confidence validation in v0.2
     confidence_framework: BoundedConfidenceFramework,
 }
 
@@ -229,7 +230,7 @@ impl DeterministicRuntimeLoop {
             .as_nanos() as u64
     }
 
-    fn extract_plan_id(&self, plan_spec: &str) -> Result<String, ExecutionError> {
+    fn extract_plan_id(&self, _plan_spec: &str) -> Result<String, ExecutionError> {
         // Simple plan ID extraction - in production this would parse SMARS spec
         Ok(format!("plan_{}", Uuid::new_v4()))
     }
@@ -315,6 +316,7 @@ impl FeedbackEnforcer {
 }
 
 pub struct RealityValidator {
+    #[allow(dead_code)] // planned for pluggable reality validation in v0.2
     grounding_mechanisms: Vec<String>,
 }
 
@@ -329,7 +331,7 @@ impl RealityValidator {
         }
     }
 
-    pub fn validate_reality_grounding(&self, execution: &PlanExecution) -> Result<RealityFeedback, ExecutionError> {
+    pub fn validate_reality_grounding(&self, _execution: &PlanExecution) -> Result<RealityFeedback, ExecutionError> {
         // Reality grounding validation
         Ok(RealityFeedback {
             grounding_check: "comprehensive".to_string(),
@@ -340,6 +342,7 @@ impl RealityValidator {
 }
 
 pub struct BoundedConfidenceFramework {
+    #[allow(dead_code)] // planned for uncertainty quantification in v0.2
     confidence_bounds: (f64, f64),
 }
 
@@ -350,6 +353,7 @@ impl BoundedConfidenceFramework {
         }
     }
 
+    #[allow(dead_code)] // planned for confidence validation in v0.2
     pub fn validate_confidence(&self, confidence: f64) -> bool {
         confidence >= self.confidence_bounds.0 && confidence <= self.confidence_bounds.1
     }

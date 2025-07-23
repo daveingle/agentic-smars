@@ -1,6 +1,6 @@
-# Macro Rewrites: Expanded Atoms → Core Primitives
-
 @role(foundation)
+
+# Macro Rewrites: Expanded Atoms → Core Primitives
 
 This specification defines how expanded SMARS atoms can be systematically rewritten as compositions of the six core primitives: datum, kind, maplet, apply, contract, and plan.
 

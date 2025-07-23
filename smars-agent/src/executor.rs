@@ -6,7 +6,7 @@ use std::hash::{Hash, Hasher};
 use log::{info, debug, warn};
 use uuid::Uuid;
 
-use crate::parser::{SmarsNode, PlanDef, MapletDef, ContractDef, ApplyCall};
+use crate::parser::{SmarsNode, PlanDef, ContractDef, ApplyCall};
 use crate::bridge::foundation_bridge::FoundationBridge;
 
 pub struct SmarsExecutor {
@@ -73,6 +73,7 @@ pub struct MapletRegistry {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)] // planned for distributed maplet execution in v0.3
 pub struct RemoteMapletDef {
     pub name: String,
     pub signature: String,
@@ -81,6 +82,7 @@ pub struct RemoteMapletDef {
 
 pub trait LocalMaplet: Send + Sync {
     fn execute(&self, args: Vec<Value>, context: &mut ExecutionContext) -> Result<Value>;
+    #[allow(dead_code)] // planned for maplet introspection in v0.2
     fn signature(&self) -> &str;
 }
 
@@ -387,7 +389,7 @@ impl SmarsExecutor {
     
     async fn validate_execution_against_spec(
         &self,
-        plan_name: &str,
+        _plan_name: &str,
         expected_steps: &[String],
         actual_trace: &[ExecutionStep],
     ) -> Result<ValidationOutcome> {

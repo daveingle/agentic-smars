@@ -5,7 +5,7 @@ use std::io::Write;
 use std::path::Path;
 use log::{info, warn};
 
-use crate::executor::{ExecutionResult, ExecutionStep, CueEmission, ValidationOutcome};
+use crate::executor::{ExecutionResult, ExecutionStep, CueEmission};
 
 #[derive(Debug, serde::Serialize)]
 pub struct UnifiedExecutionTrace {

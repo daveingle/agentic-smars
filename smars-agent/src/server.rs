@@ -5,10 +5,8 @@ use tokio::sync::Mutex;
 use tokio::net::{TcpListener, TcpStream};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use log::{info, warn, error};
-use std::collections::HashMap;
-
 use crate::executor::{SmarsExecutor, ExecutionResult};
-use crate::parser::{SmarsParser, SmarsNode};
+use crate::parser::SmarsParser;
 use crate::trace_logger::TraceLogger;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -361,10 +359,12 @@ impl SmarsAgentServer {
 }
 
 // Client helper for testing
+#[allow(dead_code)] // planned for agent-to-agent communication in v0.2
 pub struct SmarsAgentClient {
     address: String,
 }
 
+#[allow(dead_code)] // planned for agent-to-agent communication in v0.2
 impl SmarsAgentClient {
     pub fn new(address: &str) -> Self {
         Self {
@@ -421,8 +421,10 @@ impl SmarsAgentClient {
 }
 
 // Agent Discovery Client for implementing discover_agents functionality
+#[allow(dead_code)] // planned for distributed agent discovery in v0.3
 pub struct AgentDiscoveryClient;
 
+#[allow(dead_code)] // planned for distributed agent discovery in v0.3
 impl AgentDiscoveryClient {
     pub fn new() -> Self {
         Self

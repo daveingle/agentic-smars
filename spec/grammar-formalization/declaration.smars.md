@@ -1,9 +1,8 @@
 # SMARS Grammar Formalization Project
 
-**Comprehensive Enhancement of SMARS DSL Grammar and Parsing Infrastructure**
+@role(language_architect)
 
-```smars
-@role(language-architect)
+**Comprehensive Enhancement of SMARS DSL Grammar and Parsing Infrastructure**
 
 // Grammar Enhancement Types
 (kind LexicalLayer ∷ {
@@ -189,7 +188,6 @@
 (cue error_recovery ⊨ suggests: implement robust error recovery in parser)
 (cue performance_optimization ⊨ suggests: optimize parser for large SMARS specifications)
 (cue documentation_generation ⊨ suggests: auto-generate documentation from grammar)
-```
 
 ## Project Scope
 

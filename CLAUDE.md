@@ -41,7 +41,6 @@ agentic-smars/
 │   │   ├── agent_demo.rs     # Multi-agent coordination demos
 │   │   ├── executor.rs       # Plan execution with Swift LLM integration
 │   │   └── coverage_analyzer.rs  # Implementation measurement
-├── mar/                      # Swift FoundationModels integration
 ├── templates/                # Developer integration tools
 ├── grammar/                  # SMARS language definition (EBNF)
 ├── sop/                      # Standard operating procedures
@@ -160,18 +159,6 @@ cargo run -- coverage --detailed
 cargo run --example discover
 ```
 
-### Swift MAR Implementation
-```bash
-# Build the Swift Multi-Agent Runtime
-cd mar
-swift build
-
-# Run tests for Swift implementation
-swift test
-
-# Build for release
-swift build -c release
-```
 
 ### Repository Integration
 ```bash

@@ -1,6 +1,6 @@
-# SMARS Baseline Specification v0.1 - Production Ready Planning Operating System
-
 @role(nucleus)
+
+# SMARS Baseline Specification v0.1 - Production Ready Planning Operating System
 
 ## Baseline Architecture Overview
 
@@ -320,7 +320,6 @@ This specification defines the frozen baseline for SMARS (Symbolic Multi-Agent R
 ### Coverage Measurement Mechanisms
 
 (maplet calculate_coverage_percentage ∷ CoverageData → FLOAT)
-(maplet identify_coverage_gaps ∷ CoverageAnalysis → [CoverageGap])
 (maplet generate_improvement_plan ∷ [CoverageGap] → ImprovementPlan)
 
 ## Baseline Validation
